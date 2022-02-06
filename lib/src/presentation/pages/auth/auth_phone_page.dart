@@ -1,10 +1,24 @@
 import 'package:domo/src/config/style/style.dart';
 import 'package:domo/src/core/constant/asset_images.dart';
 import 'package:domo/src/core/constant/words.dart';
+import 'package:domo/src/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class AuthPhonePage extends StatelessWidget {
+class AuthPhonePage extends StatefulWidget {
   const AuthPhonePage({Key? key}) : super(key: key);
+
+  @override
+  _AuthPhonePageState createState() => _AuthPhonePageState();
+}
+
+class _AuthPhonePageState extends State<AuthPhonePage> {
+  final TextEditingController _numberController = TextEditingController();
+  @override
+  void dispose() {
+    _numberController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +39,9 @@ class AuthPhonePage extends StatelessWidget {
                 image: AssetImage(kImageLogo),
               ),
             ),
+            SizedBox(
+              height: size.height * .07,
+            ),
             Container(
               alignment: Alignment.center,
               child: Text(
@@ -36,7 +53,87 @@ class AuthPhonePage extends StatelessWidget {
                   fontWeight: FontWeight.normal,
                 ),
               ),
-            )
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: size.height * .04,
+                left: size.width * .06,
+                right: size.width * .06,
+              ),
+              child: InputWidget(
+                labeltext: ktextInputLogin,
+                onchanged: (e) {},
+                textInputFormatter: [],
+                textEditingController: _numberController,
+                textInputType: TextInputType.number,
+              ),
+            ),
+            SizedBox(
+              height: size.height * .07,
+            ),
+            ButtonWidget(
+              backGroundColor: colorText,
+              borderColor: colorText,
+              textColor: whiteColor,
+              text: kbtnLogin,
+              action: () {},
+            ),
+            SizedBox(
+              height: size.height * .07,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: size.width * .1,
+              ),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text:
+                          'Al continuar, aceptas que has leído y comprendido los ',
+                      style: textStyle(
+                        color: colorText,
+                        size: size.height * .02,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'términos y condiciones',
+                      style: textStyle(
+                        color: colorText,
+                        size: size.height * .02,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' y la ',
+                      style: textStyle(
+                        color: colorText,
+                        size: size.height * .02,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'política de datos',
+                      style: textStyle(
+                        color: colorText,
+                        size: size.height * .02,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' de DOMO',
+                      style: textStyle(
+                        color: colorText,
+                        size: size.height * .02,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

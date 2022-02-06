@@ -4,4 +4,5 @@ getRoutes() => {
       'authPhone': (_) => AuthPhonePage(),
       'verificationCodePage': (_) => VerificationCodePage(),
       'selectUserType': (_) => SelectUserType(),
+      'profilePage': (_) => ProfilePage(),
     };

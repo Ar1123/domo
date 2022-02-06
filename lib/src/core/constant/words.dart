@@ -15,3 +15,7 @@ const ktextInfo =
 const ktextUserType =
     'Antes de continuar, indica el tipo de usuario con el que te identificas. Esto definira tus funciones en ';
 const kDomo = 'DOMO';
+// profile
+const ktitleProfile = 'Perfil';
+const ktabOne = 'Datos personales';
+const ktabTwo = 'Datos pofesionales';

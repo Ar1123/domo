@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
-      initialRoute: 'authPhone',
+      initialRoute: 'verificationCodePage',
       routes: getRoutes(),
     );
   }

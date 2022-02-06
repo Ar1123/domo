@@ -30,13 +30,14 @@ class InputWidget extends StatelessWidget {
       onChanged: onchanged,
       keyboardType: textInputType,
       inputFormatters: textInputFormatter,
-      maxLines: 1,
+      maxLines: lines,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.only(left: size.width * .02),
         labelText: '$labeltext',
         labelStyle: textStyle(
           color: colorText,
           size: size.height * .02,
+          fontWeight: FontWeight.normal,
         ),
         border: InputBorder.none,
         focusedBorder: InputBorder.none,

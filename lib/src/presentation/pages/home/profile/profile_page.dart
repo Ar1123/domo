@@ -1,5 +1,6 @@
 import 'package:domo/src/config/style/style.dart';
 import 'package:domo/src/core/constant/words.dart';
+import 'package:domo/src/presentation/pages/home/profile/tabs_profile/persona_data.dart';
 import 'package:domo/src/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -64,7 +65,7 @@ class ProfilePage extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Text('1'),
+              PersonalData(),
               Text('2'),
             ],
           ),

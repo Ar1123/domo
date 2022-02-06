@@ -29,73 +29,71 @@ class _PersonalDataState extends State<PersonalData> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: backGroundColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(
-                top: size.height * .06,
-                left: size.width * .06,
-                right: size.width * .06,
-              ),
-              child: InputWidget(
-                labeltext: 'Nombres',
-                onchanged: (e) {},
-                textEditingController: _nameController,
-              ),
+      body: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(
+              top: size.height * .06,
+              left: size.width * .06,
+              right: size.width * .06,
             ),
-            Container(
-              margin: EdgeInsets.only(
-                top: size.height * .01,
-                left: size.width * .06,
-                right: size.width * .06,
-              ),
-              child: InputWidget(
-                labeltext: 'Apellidos',
-                onchanged: (e) {},
-                textEditingController: _lastNameController,
-              ),
+            child: InputWidget(
+              labeltext: 'Nombres',
+              onchanged: (e) {},
+              textEditingController: _nameController,
             ),
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(
-                top: size.height * .01,
-                left: size.width * .06,
-                right: size.width * .06,
-              ),
-              child: Text(
-                'Biografia',
-                style: textStyle(
-                    color: colorText,
-                    size: size.height * .02,
-                    fontWeight: FontWeight.normal),
-              ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              top: size.height * .01,
+              left: size.width * .06,
+              right: size.width * .06,
             ),
-            Container(
-              margin: EdgeInsets.only(
-                top: size.height * .01,
-                left: size.width * .06,
-                right: size.width * .06,
-              ),
-              child: InputWidget(
-                labeltext: 'Describete brevemente...',
-                onchanged: (e) {},
-                lines: 5,
-                textEditingController: _biographyController,
-              ),
+            child: InputWidget(
+              labeltext: 'Apellidos',
+              onchanged: (e) {},
+              textEditingController: _lastNameController,
             ),
-            SizedBox(
-              height: size.height * .04,
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(
+              top: size.height * .01,
+              left: size.width * .06,
+              right: size.width * .06,
             ),
-            ButtonWidget(
-              action: () {},
-              backGroundColor: colorText,
-              borderColor: colorText,
-              text: 'Guardar',
-              textColor: whiteColor,
-            )
-          ],
-        ),
+            child: Text(
+              'Biografia',
+              style: textStyle(
+                  color: colorText,
+                  size: size.height * .02,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              top: size.height * .01,
+              left: size.width * .06,
+              right: size.width * .06,
+            ),
+            child: InputWidget(
+              labeltext: 'Describete brevemente...',
+              onchanged: (e) {},
+              lines: 5,
+              textEditingController: _biographyController,
+            ),
+          ),
+          SizedBox(
+            height: size.height * .04,
+          ),
+          ButtonWidget(
+            action: () {},
+            backGroundColor: colorText,
+            borderColor: colorText,
+            text: 'Guardar',
+            textColor: whiteColor,
+          )
+        ],
       ),
     );
   }

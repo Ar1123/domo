@@ -90,8 +90,7 @@ class _AuthPhonePageState extends State<AuthPhonePage> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text:
-                          'Al continuar, aceptas que has leído y comprendido los ',
+                      text: kLinesTermsOne,
                       style: textStyle(
                         color: colorText,
                         size: size.height * .02,
@@ -99,7 +98,7 @@ class _AuthPhonePageState extends State<AuthPhonePage> {
                       ),
                     ),
                     TextSpan(
-                      text: 'términos y condiciones',
+                      text: kLinesTermsTwo,
                       style: textStyle(
                         color: colorText,
                         size: size.height * .02,
@@ -107,7 +106,7 @@ class _AuthPhonePageState extends State<AuthPhonePage> {
                       ),
                     ),
                     TextSpan(
-                      text: ' y la ',
+                      text: kLinesTermsThree,
                       style: textStyle(
                         color: colorText,
                         size: size.height * .02,
@@ -115,7 +114,7 @@ class _AuthPhonePageState extends State<AuthPhonePage> {
                       ),
                     ),
                     TextSpan(
-                      text: 'política de datos',
+                      text: kLinesTermsFour,
                       style: textStyle(
                         color: colorText,
                         size: size.height * .02,
@@ -123,7 +122,7 @@ class _AuthPhonePageState extends State<AuthPhonePage> {
                       ),
                     ),
                     TextSpan(
-                      text: ' de DOMO',
+                      text: kLinesTermsFive,
                       style: textStyle(
                         color: colorText,
                         size: size.height * .02,

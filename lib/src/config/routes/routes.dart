@@ -5,4 +5,5 @@ getRoutes() => {
       'verificationCodePage': (_) => VerificationCodePage(),
       'selectUserType': (_) => SelectUserType(),
       'profilePage': (_) => ProfilePage(),
+      'listServicePage': (_) => ListServicePage(),
     };

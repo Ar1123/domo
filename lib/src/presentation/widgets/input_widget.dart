@@ -5,13 +5,14 @@ import 'custom_widget/custom.dart';
 import 'package:flutter/material.dart';
 
 class InputWidget extends StatelessWidget {
-  const InputWidget({
+   InputWidget({
     Key? key,
     required this.labeltext,
     required this.onchanged,
     required this.textEditingController,
     this.textInputType = TextInputType.text,
     this.textInputFormatter,
+    this.enabled = true,
     this.lines = 1,
   }) : super(key: key);
   final String labeltext;
@@ -19,6 +20,7 @@ class InputWidget extends StatelessWidget {
   final TextEditingController textEditingController;
   final TextInputType textInputType;
   final int lines;
+  bool enabled;
   final List<TextInputFormatter>? textInputFormatter;
 
   @override
@@ -28,6 +30,7 @@ class InputWidget extends StatelessWidget {
         child: TextField(
       controller: textEditingController,
       onChanged: onchanged,
+      enabled: enabled,
       keyboardType: textInputType,
       inputFormatters: textInputFormatter,
       maxLines: lines,

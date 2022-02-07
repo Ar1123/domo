@@ -83,6 +83,20 @@ class _PersonalDataState extends State<PersonalData> {
               textEditingController: _biographyController,
             ),
           ),
+            Container(
+            margin: EdgeInsets.only(
+              top: size.height * .01,
+              left: size.width * .06,
+              right: size.width * .06,
+            ),
+            child: InputWidget(
+              enabled: false,
+              labeltext: 'Número teléfonico',
+              
+              onchanged: (e) {},
+              textEditingController: _lastNameController,
+            ),
+          ),
           SizedBox(
             height: size.height * .04,
           ),

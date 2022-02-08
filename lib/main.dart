@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Maaterial App',
-      initialRoute: 'profilePage',
+      initialRoute: 'homePage',
       routes: getRoutes(),
     );
   }

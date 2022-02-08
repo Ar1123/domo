@@ -1,5 +1,6 @@
 export 'auth/auth_phone_page.dart';
 export 'auth/verification_code.dart';
-export 'home/user_type.dart';
+export 'auth/user_type.dart';
 export 'home/profile/profile_page.dart';
-export 'home/profile/service_list/list_service_page.dart';
+export 'home/service_list/list_service_page.dart';
+export 'home/home_page.dart';

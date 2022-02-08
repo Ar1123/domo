@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../config/style/style.dart';
-import '../../../../widgets/widgets.dart';
+import '../../../../config/style/style.dart';
+import '../../../widgets/widgets.dart';
 
 class ListServicePage extends StatefulWidget {
   const ListServicePage({Key? key}) : super(key: key);
@@ -132,8 +132,9 @@ class _ListServicePageState extends State<ListServicePage> {
                         fecha: '12/Feb/2022',
                         hora: '8:45 AM',
                       ),
-                      SizedBox(height: size.height*.02,),
-
+                      SizedBox(
+                        height: size.height * .02,
+                      ),
                       Carwidget(
                         ciudad: 'Montería',
                         fecha: '12/Feb/2022',
@@ -147,8 +148,9 @@ class _ListServicePageState extends State<ListServicePage> {
                         fecha: '12/Feb/2022',
                         hora: '8:45 AM',
                       ),
-                      SizedBox(height: size.height*.02,),
-
+                      SizedBox(
+                        height: size.height * .02,
+                      ),
                     ],
                   ),
                 ),

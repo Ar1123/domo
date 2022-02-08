@@ -33,10 +33,7 @@ class _HomePageState extends State<HomePage>
               controller: _tabController,
               children: [
                 ListServicePage(),
-                Center(
-                    child: Container(
-                  child: Text('2'),
-                )),
+                SearchService(),
                 Center(
                     child: Container(
                   child: Text('3'),
@@ -83,7 +80,6 @@ class _HomePageState extends State<HomePage>
                             Icons.search_outlined,
                             size: 24.0,
                             color: colorText,
-
                           ),
                         ),
                         Tab(
@@ -91,7 +87,6 @@ class _HomePageState extends State<HomePage>
                             Icons.monetization_on_outlined,
                             size: 24.0,
                             color: colorText,
-
                           ),
                         ),
                         Tab(
@@ -99,7 +94,6 @@ class _HomePageState extends State<HomePage>
                             Icons.menu,
                             size: 24.0,
                             color: colorText,
-
                           ),
                         ),
                       ],

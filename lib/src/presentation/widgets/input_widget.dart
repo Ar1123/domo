@@ -39,7 +39,7 @@ class InputWidget extends StatelessWidget {
         labelText: '$labeltext',
         labelStyle: textStyle(
           color: colorText,
-          size: size.height * .02,
+          size: size.height * .023,
           fontWeight: FontWeight.normal,
         ),
         border: InputBorder.none,

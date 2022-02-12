@@ -19,3 +19,7 @@ const kDomo = 'DOMO';
 const ktitleProfile = 'Perfil';
 const ktabOne = 'Datos personales';
 const ktabTwo = 'Datos pofesionales';
+
+//AuthBloc0
+const kErrorNumber = 'Verifica el número telefonico ingresado';
+const kinfoAuth = 'Se enviara un código de verificación al número';

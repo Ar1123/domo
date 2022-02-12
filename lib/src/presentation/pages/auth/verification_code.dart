@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerificationCodePage extends StatelessWidget {
-  const VerificationCodePage({Key? key}) : super(key: key);
+  const VerificationCodePage({Key? key, required this.number}) : super(key: key);
+  final String number;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class VerificationCodePage extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: '301 2046556',
+                        text: number,
                         style: textStyle(
                           color: colorText,
                           size: size.height * .023,

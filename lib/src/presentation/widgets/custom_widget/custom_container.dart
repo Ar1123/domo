@@ -12,6 +12,7 @@ class CustomContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: child,
+      padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: blueColorTwo,
         borderRadius: BorderRadius.circular(10),

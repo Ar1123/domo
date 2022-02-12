@@ -21,22 +21,27 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  cached_network_image: ^3.2.0
   carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
-  flutter:
-    sdk: flutter
-  flutter_svg: ^1.0.0
-  google_fonts: 2.0.0
-  linter: ^1.7.0
-  pin_code_fields: ^7.3.0
-  firebase_auth: ^3.1.2
-  firebase_messaging: ^10.0.8
-  flutter_bloc: ^7.3.0
-  firebase_core: ^1.7.0
-  firebase_storage: ^10.0.5
-  get_it: ^7.2.0
   dartz: ^0.10.0
   equatable: ^2.0.3
+  firebase_auth: ^3.1.2
+  firebase_core: ^1.7.0
+  firebase_messaging: ^10.0.8
+  firebase_storage: ^10.0.5
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^7.3.0
+  flutter_svg: ^1.0.0
+  get_it: ^7.2.0
+  google_fonts: 2.0.0
+  linter: ^1.7.0
+  mask_text_input_formatter: ^2.1.0
+  pin_code_fields: ^7.3.0
+  shared_preferences: ^2.0.13
+  top_snackbar_flutter: ^1.0.2
+  url_launcher: ^6.0.20
 
 dev_dependencies:
   flutter_test:

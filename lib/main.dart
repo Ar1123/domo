@@ -7,8 +7,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Maaterial App',
-      initialRoute: 'homePage',
+      title: 'Domo',
+      debugShowCheckedModeBanner: false,
+      initialRoute: 'authPhone',
       routes: getRoutes(),
     );
   }

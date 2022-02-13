@@ -1,7 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../../config/style/style.dart';
-import '../pages.dart';
 import 'status_service/status_service.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,10 +15,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
+
+  int _currentIndex = 0;
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _initTabController();
     super.initState();
+  }
+
+  void _initTabController() {
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController!.addListener(() {});
   }
 
   @override
@@ -32,8 +40,7 @@ class _HomePageState extends State<HomePage>
         child: Scaffold(
             backgroundColor: backGroundColor,
             body: TabBarView(
-                            physics: const NeverScrollableScrollPhysics(),
-
+              physics: const NeverScrollableScrollPhysics(),
               controller: _tabController,
               children: [
                 TabStatusService(),
@@ -55,6 +62,18 @@ class _HomePageState extends State<HomePage>
                 child: Container(
                   color: Colors.white,
                   child: TabBar(
+                    onTap: (index) {
+                      if (index == 0) {
+                        _currentIndex = index;
+                      } else if (index == 1) {
+                        log("Añadir");
+                        Navigator.pushNamed(context, 'createService');
+                      } else if (index == 2) {
+                        log("Menu");
+                      }
+
+                      _tabController!.animateTo(_currentIndex);
+                    },
                     labelColor: Color(0xFFC41A3B),
                     unselectedLabelColor: Colors.red,
                     labelStyle: TextStyle(fontSize: 10.0),

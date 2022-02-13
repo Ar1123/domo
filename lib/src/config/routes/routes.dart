@@ -5,6 +5,6 @@ getRoutes() => {
       'selectUserType': (_) => SelectUserType(),
       'profilePage': (_) => ProfilePage(),
       'listServicePage': (_) => ListServicePage(),
-      'homePage': (_) => HomePage
-(),
+      'homePage': (_) => HomePage(),
+      'createService': (_) => CreateServicePage(),
     };

@@ -1,3 +1,4 @@
+import 'package:domo/src/data/repository/remote_city_repo_impl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
@@ -27,11 +28,17 @@ Future<void> initLocator() async {
         authUseCaseDomnain: locator(),
         uSerCaseDomain: locator(),
         sharedPrefencesUseCase: locator(),
+        localCityUseCase: locator(),
+        remoteCityUseCase: locator(),
       ));
   locator.registerFactory(() => UserBloc(
         sharedPrefencesUseCase: locator(),
         uSerCaseDomain: locator(),
         authUseCaseDomnain: locator(),
+      ));
+  locator.registerFactory(() => ServiceBloc(
+    localCityUseCase: locator(),
+   
       ));
 
 /*
@@ -48,8 +55,12 @@ Future<void> initLocator() async {
       () => AuthUseCaseDomnain(authRepositoryDomain: locator()));
   locator.registerLazySingleton(() =>
       SharedPrefencesUseCase(sharedPreferencesRepositoryDomain: locator()));
-  locator.registerLazySingleton(() =>
-      UserUSerCaseDomain(userRepositoryDomain:  locator()));
+  locator.registerLazySingleton(
+      () => LocalCityUseCase( locator()));
+  locator.registerLazySingleton(
+      () => RemoteCityUseCase( locator()));
+  locator.registerLazySingleton(
+      () => UserUSerCaseDomain( userRepositoryDomain:  locator()));
 
 /*
 .......##.......##.########..########.########...#######...######..####.########..#######..########..##....##
@@ -65,9 +76,12 @@ Future<void> initLocator() async {
   locator.registerLazySingleton<SharedPreferencesRepositoryDomain>(() =>
       SharedPreferencesRepositoryImpl(
           sharedPreferencesLocalDataSource: locator()));
-  locator.registerLazySingleton<UserRepositoryDomain>(() =>
-      UserRepositoryImpl(
-          userRemoteDataSource:  locator()));
+  locator.registerLazySingleton<UserRepositoryDomain>(
+      () => UserRepositoryImpl(userRemoteDataSource: locator()));
+  locator.registerLazySingleton<RemoteCityRepoDomain>(
+      () => RemoteCityRepositoryImpl( locator()));
+  locator.registerLazySingleton<LocalCityRepositoryDomain>(
+      () => CityRepositoryLocalImpl( locator()));
 
 /*
 .......##.......##.########.....###....########....###.....######...#######..##.....##.########...######..########......
@@ -85,6 +99,10 @@ Future<void> initLocator() async {
       () => SharedPreferencesLocalDataSourceImpl(sharedPreferences: locator()));
   locator.registerLazySingleton<UserRemoteDataSource>(
       () => UserRemoteDataSourceImpl());
+  locator.registerLazySingleton<CityRemote>(
+      () => CityRemoteImpl());
+  locator.registerLazySingleton<CityLocalDataSource>(
+      () => CityLocalDataSourceImpl());
 
   /*
   .......##.......##.########.##.....##.########.########.########..##....##..#######.

@@ -1,3 +1,4 @@
+import 'package:domo/src/core/errors/execptions.dart';
 import 'package:domo/src/core/errors/failures.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,7 +41,7 @@ class SharedPreferencesLocalDataSourceImpl
     return status;
     } catch (e) {
       Future.error('Error al obteer ener datov$e');
-      throw CacheFailure();
+      throw CacheExceptions();
    
     }
 
@@ -54,7 +55,7 @@ class SharedPreferencesLocalDataSourceImpl
       return number;
     } catch (e) {
       Future.error('Error al obtener datos $e');
-      throw CacheFailure();
+      throw CacheExceptions();
     }
   }
 
@@ -66,8 +67,9 @@ class SharedPreferencesLocalDataSourceImpl
       return number;
     } catch (e) {
       Future.error('Error al obtener datos $e');
-      throw CacheFailure();
+      throw CacheExceptions();
     }
+    
   }
 
   @override
@@ -78,7 +80,7 @@ class SharedPreferencesLocalDataSourceImpl
       return list;
     } catch (e) {
       Future.error('Error al obtener datos $e');
-      throw CacheFailure();
+      throw CacheExceptions();
     }
   }
 
@@ -90,7 +92,7 @@ class SharedPreferencesLocalDataSourceImpl
       return value;
     } catch (e) {
       Future.error('Error al obtener datos $e');
-      throw CacheFailure();
+      throw CacheExceptions();
     }
   }
 
@@ -102,7 +104,7 @@ class SharedPreferencesLocalDataSourceImpl
     } catch (e) {
       Future.error('Error al guardar datos $e');
 
-      throw CacheFailure();
+      throw CacheExceptions();
     }
   }
 
@@ -115,7 +117,7 @@ class SharedPreferencesLocalDataSourceImpl
     } catch (e) {
       Future.error('Error al guardar datos $e');
 
-      throw CacheFailure();
+      throw CacheExceptions();
     }
   }
 
@@ -126,7 +128,7 @@ class SharedPreferencesLocalDataSourceImpl
       return true;
     } catch (e) {
       Future.error('Error al guardar datos $e');
-      throw CacheFailure();
+      throw CacheExceptions();
     }
   }
 
@@ -138,7 +140,7 @@ class SharedPreferencesLocalDataSourceImpl
       return true;
     } catch (e) {
       Future.error('Error al guardar datos $e');
-      throw CacheFailure();
+      throw CacheExceptions();
     }
   }
 
@@ -150,7 +152,7 @@ class SharedPreferencesLocalDataSourceImpl
       return true;
     } catch (e) {
       Future.error('Error al guardar datos $e');
-      throw CacheFailure();
+      throw CacheExceptions();
     }
   }
 
@@ -160,7 +162,7 @@ class SharedPreferencesLocalDataSourceImpl
       await sharedPreferences.remove(key);
     } catch (e) {
       Future.error('Error al eliminar preferencias $e');
-      throw CacheFailure();
+      throw CacheExceptions();
     }
   }
 
@@ -170,7 +172,7 @@ class SharedPreferencesLocalDataSourceImpl
       await sharedPreferences.clear();
     } catch (e) {
       Future.error('Error al eliminar preferencias $e');
-      throw CacheFailure();
+      throw CacheExceptions();
     }
   }
 }

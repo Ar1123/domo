@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:domo/src/presentation/search_delegate/search_delegate_city.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -72,6 +75,13 @@ class _CreateServicePageState extends State<CreateServicePage> {
                 ),
                 CustomContainer(
                   child: ListTile(
+                    onTap: () async {
+                      final city = await showSearch(
+                        context: context,
+                        delegate: DelegeateCity(list: []),
+                      );
+                      log("${city?.city}", name: 'CITY');
+                    },
                     horizontalTitleGap: 0,
                     leading: Icon(
                       Icons.search_outlined,

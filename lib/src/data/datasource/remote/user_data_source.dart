@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:domo/src/data/model/user_model.dart';
 
 import '../../../core/errors/execptions.dart';
 
 abstract class UserRemoteDataSource {
   Future<bool> createUser({required Map<String, dynamic> data});
   Future<bool> update({required Map<String, dynamic> data, required String id});
-  Future<dynamic> get({required String id});
+  Future<USerModel> get({required String id});
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -26,11 +27,12 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<dynamic> get({required String id}) async {
+  Future<USerModel> get({required String id}) async {
     try {
+      USerModel uSerModel = USerModel();
       final user = await _reference.doc(id).get();
-      log("$user");
-      return [];
+      uSerModel  = USerModel.fromJson(user.data() as Map<String, dynamic>);
+      return uSerModel;
     } on FirebaseException catch (e) {
       log('Error al obtener usuario $e');
       throw ServerExceptions();

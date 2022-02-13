@@ -44,7 +44,15 @@ class _AuthPhonePageState extends State<AuthPhonePage> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data!) {
-                  return Container();
+                        Future.delayed(Duration(seconds: 1), () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        'selectUserType', (Route<dynamic> route) => false);
+                  });
+          return Container(
+                      height: size.height,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ));
                 } else {
                   return SingleChildScrollView(
                     child: Column(

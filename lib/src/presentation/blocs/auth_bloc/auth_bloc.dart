@@ -81,4 +81,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
   }
+
+  Future<bool> getSession() async {
+    bool status = false;
+    final session = await authUseCaseDomnain.verifySession();
+    session.fold((l) {}, (r) {
+      status = r;
+    });
+    return status;
+  }
 }

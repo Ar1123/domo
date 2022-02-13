@@ -22,5 +22,12 @@ final  String? message;
   ErrorInAuthState({this.message});
 }
 
-class NextInAuthState extends AuthState{}
+class NextInAuthState extends AuthState{
+
+  final PhoneAuthCredential? phoneAuthCredential;
+
+  NextInAuthState({this.phoneAuthCredential});
+}
 class CloseInAuthState extends AuthState{}
+class LoadingAuthState extends AuthState{}
+class HidenLoadingAuthState extends AuthState{}

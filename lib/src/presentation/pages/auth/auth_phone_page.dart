@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:domo/src/presentation/pages/auth/verification_code.dart';
 
 import '../../../injector.dart';
@@ -21,6 +23,8 @@ class AuthPhonePage extends StatefulWidget {
 class _AuthPhonePageState extends State<AuthPhonePage> {
   final TextEditingController _numberController = TextEditingController();
   final authBloc = locator<AuthBloc>();
+  bool loading = false;
+
   @override
   void dispose() {
     _numberController.dispose();
@@ -87,7 +91,11 @@ class _AuthPhonePageState extends State<AuthPhonePage> {
                 builder: (context, state) {
                   return BlocListener<AuthBloc, AuthState>(
                     listener: (context, state) {
+                      if (state is LoadingAuthState) {
+                        loading = true;
+                      }
                       if (state is ErrorInAuthState) {
+                        loading = false;
                         custonTopSnackbar(
                           context: context,
                           message: state.message!,
@@ -95,6 +103,7 @@ class _AuthPhonePageState extends State<AuthPhonePage> {
                         );
                       }
                       if (state is NextInAuthState) {
+                        loading = false;
                         custonTopSnackbar(
                           context: context,
                           message: "$kinfoAuth ${_numberController.text}",
@@ -110,19 +119,23 @@ class _AuthPhonePageState extends State<AuthPhonePage> {
                         );
                       }
                     },
-                    child: ButtonWidget(
-                      backGroundColor: colorText,
-                      borderColor: colorText,
-                      textColor: whiteColor,
-                      text: kbtnLogin,
-                      action: () {
-                        context.read<AuthBloc>().add(
-                              OnVerifiedNumber(
-                                number: _numberController.text.trim(),
-                              ),
-                            );
-                      },
-                    ),
+                    child: (loading)
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ButtonWidget(
+                            backGroundColor: colorText,
+                            borderColor: colorText,
+                            textColor: whiteColor,
+                            text: kbtnLogin,
+                            action: () {
+                              context.read<AuthBloc>().add(
+                                    OnVerifiedNumber(
+                                      number: _numberController.text.trim(),
+                                    ),
+                                  );
+                            },
+                          ),
                   );
                 },
               ),

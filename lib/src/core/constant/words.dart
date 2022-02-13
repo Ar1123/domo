@@ -22,4 +22,8 @@ const ktabTwo = 'Datos pofesionales';
 
 //AuthBloc0
 const kErrorNumber = 'Verifica el número telefonico ingresado';
+const kErrorNumberEmpty = 'Ingresa un número telefónico';
 const kinfoAuth = 'Se enviara un código de verificación al número';
+const kErrorIntentons = "Has intentado muchas veces en poco tiempo. Intenta más tarde, por favor";
+const kFormatoNumero = "El número no cumple con el formato adecuado";
+const kTimeOut = "Tiempo de espera alcanzado, intente nuevamente";

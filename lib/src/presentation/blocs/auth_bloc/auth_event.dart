@@ -11,5 +11,17 @@ class OnVerifiedNumber extends AuthEvent {
     required this.number,
   });
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [number];
+}
+
+class OnSendNumber extends AuthEvent {
+  final String number;
+
+  OnSendNumber({
+    required this.number,
+  });
+  @override
+  List<Object?> get props => [
+        number,
+      ];
 }

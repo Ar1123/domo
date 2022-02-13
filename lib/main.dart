@@ -13,13 +13,19 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   await initLocator();
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+          child: child!,
+        );
+      },
       title: 'Domo',
       debugShowCheckedModeBanner: false,
       initialRoute: 'authPhone',

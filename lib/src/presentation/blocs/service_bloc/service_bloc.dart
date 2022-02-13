@@ -8,9 +8,11 @@ part 'service_state.dart';
 
 class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
   final LocalCityUseCase localCityUseCase;
+  final GetImageFromLocalUseCase getImageFromLocalUseCase;
 
   ServiceBloc({
     required this.localCityUseCase,
+    required this.getImageFromLocalUseCase,
   }) : super(ServiceInitial()) {
     on<ServiceEvent>((event, emit) {});
   }

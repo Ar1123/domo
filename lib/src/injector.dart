@@ -38,7 +38,7 @@ Future<void> initLocator() async {
       ));
   locator.registerFactory(() => ServiceBloc(
     localCityUseCase: locator(),
-   
+   getImageFromLocalUseCase: locator(),
       ));
 
 /*
@@ -61,6 +61,8 @@ Future<void> initLocator() async {
       () => RemoteCityUseCase( locator()));
   locator.registerLazySingleton(
       () => UserUSerCaseDomain( userRepositoryDomain:  locator()));
+  locator.registerLazySingleton(
+      () => GetImageFromLocalUseCase(   locator()));
 
 /*
 .......##.......##.########..########.########...#######...######..####.########..#######..########..##....##
@@ -82,6 +84,8 @@ Future<void> initLocator() async {
       () => RemoteCityRepositoryImpl( locator()));
   locator.registerLazySingleton<LocalCityRepositoryDomain>(
       () => CityRepositoryLocalImpl( locator()));
+  locator.registerLazySingleton<GetImageFromLocalRepositoryDomain>(
+      () => GetimageFromCameraRepoImpl( locator()));
 
 /*
 .......##.......##.########.....###....########....###.....######...#######..##.....##.########...######..########......
@@ -103,6 +107,8 @@ Future<void> initLocator() async {
       () => CityRemoteImpl());
   locator.registerLazySingleton<CityLocalDataSource>(
       () => CityLocalDataSourceImpl());
+  locator.registerLazySingleton<GetImageFromCameraLocal>(
+      () => GetImageFromCameraLocalimpl());
 
   /*
   .......##.......##.########.##.....##.########.########.########..##....##..#######.

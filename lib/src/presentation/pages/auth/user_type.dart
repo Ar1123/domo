@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../config/style/style.dart';
@@ -37,7 +36,10 @@ class _SelectUserTypeState extends State<SelectUserType> {
                 if (snapshot.data?.typUser != 0) {
                   Future.delayed(Duration(seconds: 1), () {
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                        'profilePage', (Route<dynamic> route) => false);
+                        'homePage', (Route<dynamic> route) => false,
+                        arguments: {
+                          "userType": snapshot.data?.typUser,
+                        });
                   });
                   return Container(
                       height: size.height,
@@ -136,9 +138,11 @@ class _SelectUserTypeState extends State<SelectUserType> {
                                     if (result) {
                                       loading = false;
                                       Navigator.of(context)
-                                          .pushNamedAndRemoveUntil(
-                                              'profilePage',
-                                              (Route<dynamic> route) => false);
+                                          .pushNamedAndRemoveUntil('homePage',
+                                              (Route<dynamic> route) => false,
+                                              arguments: {
+                                            "userType": snapshot.data?.typUser,
+                                          });
                                     } else {
                                       setState(() {
                                         loading = false;
@@ -155,9 +159,11 @@ class _SelectUserTypeState extends State<SelectUserType> {
                                     if (result) {
                                       loading = false;
                                       Navigator.of(context)
-                                          .pushNamedAndRemoveUntil(
-                                              'profilePage',
-                                              (Route<dynamic> route) => false);
+                                          .pushNamedAndRemoveUntil('homePage',
+                                              (Route<dynamic> route) => false,
+                                              arguments: {
+                                            "userType": snapshot.data?.typUser,
+                                          });
                                     } else {
                                       setState(() {
                                         loading = false;

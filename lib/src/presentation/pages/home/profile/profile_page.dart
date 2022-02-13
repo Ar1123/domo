@@ -45,7 +45,10 @@ class _ProfilePageState extends State<ProfilePage> {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        appBar: apbar(title: (ktitleProfile), size: size),
+        appBar: apbar(title: (ktitleProfile), size: size,
+        action: (){
+          Navigator.pushReplacementNamed(context, "homePage");
+        }),
         backgroundColor: backGroundColor,
         body: FutureBuilder<UserEntities>(
             future: userBloc.getUser(),

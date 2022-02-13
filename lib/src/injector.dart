@@ -7,7 +7,7 @@ import 'data/datasource/data_source_data.dart';
 import 'data/repository/repository_data.dart';
 import 'domain/repository/repository_domain.dart';
 import 'domain/usecase/use_case_domain.dart';
-import 'presentation/blocs/blocs.dart';
+import 'presentation/blocs/blocs.dart' ;
 
 final locator = GetIt.instance;
 
@@ -26,6 +26,7 @@ Future<void> initLocator()async{
 
   locator.registerFactory(() => AuthBloc(
     firebaseAuth: locator(),
+    authUseCaseDomnain: locator(),
   ));
   locator.registerFactory(() => UserBloc());
 

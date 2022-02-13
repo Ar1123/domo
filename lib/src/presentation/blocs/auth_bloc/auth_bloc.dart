@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
 import 'package:bloc/bloc.dart';
+import 'package:domo/src/domain/usecase/auth_use_case_domain.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -11,10 +12,15 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth firebaseAuth;
+  final AuthUseCaseDomnain authUseCaseDomnain;
 
-  AuthBloc({required this.firebaseAuth}) : super(AuthInitial()) {
+  AuthBloc({
+    required this.firebaseAuth,
+    required this.authUseCaseDomnain,
+  }) : super(AuthInitial()) {
     on<OnVerifiedNumber>(_onVerifiedNumber);
     on<OnSendNumber>(_onSendNumber);
+    on<OnVerifiedCode>(_onVerifiedCode);
   }
 
   void _onVerifiedNumber(
@@ -39,7 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await firebaseAuth.verifyPhoneNumber(
       phoneNumber: '+57${event.number}',
       verificationCompleted: (PhoneAuthCredential credential) {
-        emit(NextInAuthState(phoneAuthCredential: credential));
+        emit(ShowCode(phoneAuthCredential: credential));
         emit(CloseInAuthState());
       },
       verificationFailed: (FirebaseAuthException firebaseException) {
@@ -60,5 +66,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(CloseInAuthState());
       },
     );
+  }
+
+  void _onVerifiedCode(OnVerifiedCode event, Emitter emitter) async {
+    final result = await authUseCaseDomnain.signInWithPhone(
+        phoneAuthCredential: event.phoneAuthCredential);
+    result.fold((l) {
+      emit(ErrorInAuthState(message: 'Error al crear cuenta'));
+      emit(CloseInAuthState());
+    }, (r) async {
+      if (r.user != null) {
+        emit(NextInAuthState());
+        emit(CloseInAuthState());
+      }
+    });
   }
 }

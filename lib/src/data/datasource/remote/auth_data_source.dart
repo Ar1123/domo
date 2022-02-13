@@ -1,6 +1,8 @@
-import 'package:domo/src/core/errors/execptions.dart';
-import 'package:domo/src/injector.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../../core/errors/execptions.dart';
+import '../../../domain/usecase/use_case_domain.dart';
+import '../../../injector.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserCredential> signInWithPhone(
@@ -11,10 +13,9 @@ abstract class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth auth;
-  UserCredential? _userCredential;
   User? user;
 
-  // final useCase = locator<SharedPreferencesUseCase>();
+  final sharedPreferences = locator<SharedPrefencesUseCase>();
 
   AuthRemoteDataSourceImpl({required this.auth});
 
@@ -35,8 +36,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final result = await auth.signInWithCredential(phoneAuthCredential);
 
       if (result.user != null) {
-            //  await useCase.setKeyString(
-            // key: 'uid', value: result.user!.uid);
+             await sharedPreferences.setKeyString(
+            key: 'uid', value: result.user!.uid);
         return result;
       }
 

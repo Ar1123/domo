@@ -25,3 +25,15 @@ class OnSendNumber extends AuthEvent {
         number,
       ];
 }
+
+class OnVerifiedCode extends AuthEvent {
+  final PhoneAuthCredential phoneAuthCredential;
+
+  OnVerifiedCode({
+    required this.phoneAuthCredential,
+  });
+  @override
+  List<Object?> get props => [
+    phoneAuthCredential,
+  ];
+}

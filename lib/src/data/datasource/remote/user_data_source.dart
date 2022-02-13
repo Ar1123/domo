@@ -16,7 +16,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<bool> createUser({required Map<String, dynamic> data}) async {
     try {
-      await _reference.doc(data['uid']).set(data);
+      await _reference.doc("${data['uid']}").set(data);
 
       return true;
     } on FirebaseException catch (e) {

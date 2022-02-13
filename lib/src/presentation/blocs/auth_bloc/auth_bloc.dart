@@ -1,7 +1,11 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:domo/src/domain/usecase/auth_use_case_domain.dart';
+import 'package:domo/src/domain/usecase/shared_prefences_use_case.dart';
+import 'package:domo/src/domain/usecase/user_use_case.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -13,10 +17,14 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth firebaseAuth;
   final AuthUseCaseDomnain authUseCaseDomnain;
+  final UserUSerCaseDomain uSerCaseDomain;
+  final SharedPrefencesUseCase sharedPrefencesUseCase;
 
   AuthBloc({
     required this.firebaseAuth,
     required this.authUseCaseDomnain,
+    required this.uSerCaseDomain,
+    required this.sharedPrefencesUseCase,
   }) : super(AuthInitial()) {
     on<OnVerifiedNumber>(_onVerifiedNumber);
     on<OnSendNumber>(_onSendNumber);
@@ -76,8 +84,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(CloseInAuthState());
     }, (r) async {
       if (r.user != null) {
-        emit(NextInAuthState());
-        emit(CloseInAuthState());
+        log("${r.user}", name: "aaaaaaaaaaaaaaa");
+        final result2 = await uSerCaseDomain.createUser(data: {
+          "uid": r.user!.uid,
+          "active": true,
+          "accountComplete": false,
+        });
+        result2.fold((l) {
+          log("ssssssssssssssssssssssssssssssssssssssssssss");
+          emit(ErrorInAuthState(message: 'Error a crear cuenta'));
+        }, (r) {
+          emit(NextInAuthState());
+          emit(CloseInAuthState());
+        });
       }
     });
   }
@@ -85,7 +104,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<bool> getSession() async {
     bool status = false;
     final session = await authUseCaseDomnain.verifySession();
-    session.fold((l) {}, (r) {
+    session.fold((l) {}, (r) async {
       status = r;
     });
     return status;

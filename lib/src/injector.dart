@@ -25,6 +25,8 @@ Future<void> initLocator() async {
   locator.registerFactory(() => AuthBloc(
         firebaseAuth: locator(),
         authUseCaseDomnain: locator(),
+        uSerCaseDomain: locator(),
+        sharedPrefencesUseCase: locator(),
       ));
   locator.registerFactory(() => UserBloc(
         sharedPrefencesUseCase: locator(),

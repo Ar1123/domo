@@ -98,6 +98,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             "uid": r.user!.uid,
             "active": true,
             "accountComplete": false,
+            "phone":event.phone,
           });
           result2.fold((l) {
             emit(ErrorInAuthState(message: 'Error a crear cuenta'));

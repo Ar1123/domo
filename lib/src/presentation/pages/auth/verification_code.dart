@@ -29,7 +29,6 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
     super.initState();
   }
 
- 
   void _sendData() {
     authBloc.add(OnSendNumber(number: widget.number));
     Future.delayed(Duration(seconds: 8), () {
@@ -160,7 +159,9 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                               setState(() {});
                               if (phoneAuthCredential != null) {
                                 context.read<AuthBloc>().add(OnVerifiedCode(
-                                    phoneAuthCredential: phoneAuthCredential!));
+                                      phoneAuthCredential: phoneAuthCredential!,
+                                      phone: widget.number,
+                                    ));
                                 return;
                               }
                               loading = false;

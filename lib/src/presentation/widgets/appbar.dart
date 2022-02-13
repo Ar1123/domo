@@ -9,7 +9,7 @@ PreferredSizeWidget apbar({required String title, required Size size}) =>
       centerTitle: true,
       titleTextStyle: textStyle(
         color: whiteColor,
-        size: size.height * .02,
+        size: size.height * .03,
         fontWeight: FontWeight.normal,
       ),
       leading: Icon(

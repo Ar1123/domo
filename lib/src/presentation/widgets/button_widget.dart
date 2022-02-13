@@ -24,7 +24,7 @@ class ButtonWidget extends StatelessWidget {
       onTap: action,
       child: Container(
         width: size.width * .6,
-        height: size.height * .06,
+        height: size.height * .07,
         alignment: Alignment.center,
         child: Text(
           text,

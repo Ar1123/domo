@@ -28,12 +28,15 @@ class OnSendNumber extends AuthEvent {
 
 class OnVerifiedCode extends AuthEvent {
   final PhoneAuthCredential phoneAuthCredential;
+  final String phone;
 
   OnVerifiedCode({
     required this.phoneAuthCredential,
+    required this.phone
   });
   @override
   List<Object?> get props => [
     phoneAuthCredential,
+    phone
   ];
 }

@@ -34,4 +34,11 @@ final AuthRemoteDataSource authRemoteDataSource;
       return await authRemoteDataSource.verifySession();
     });
   }
+
+  @override
+  Future<Either<Failure, String>> getUserId() async{
+    return response(()async{
+      return await authRemoteDataSource.getUserId();
+    });
+  }
 }

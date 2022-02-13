@@ -7,5 +7,7 @@ abstract class AuthRepositoryDomain{
   Future<Either<Failure, UserCredential>> signInWithPhone({required PhoneAuthCredential phoneAuthCredential});
   Future<Either<Failure, bool>> verifySession();
   Future<Either<Failure, void>> logOut();
+    Future<Either<Failure, String>> getUserId();
+
 
 }

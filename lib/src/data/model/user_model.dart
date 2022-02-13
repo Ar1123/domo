@@ -26,9 +26,10 @@ class USerModel extends UserEntities {
         );
 
   factory USerModel.fromJson(Map<String, dynamic> json) => USerModel(
-        accountComplete: json["accountComplete"],
-        active: json["active"],
-        uid: json["uid"],
+        accountComplete:
+            (json["accountComplete"] == null) ? false : json["accountComplete"],
+        active: (json["active"] == null) ? false : json["active"],
+        uid: (json["uid"] == null) ? '' : json["uid"],
         typeUser: (json["typeUser"] == null) ? 0 : json["typeUser"],
       );
 

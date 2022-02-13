@@ -16,4 +16,6 @@ class AuthUseCaseDomnain {
   Future<Either<Failure, bool>> verifySession() =>
       authRepositoryDomain.verifySession();
   Future<Either<Failure, void>> logOut() => authRepositoryDomain.logOut();
+  Future<Either<Failure, String>> getUserId() =>
+      authRepositoryDomain.getUserId();
 }

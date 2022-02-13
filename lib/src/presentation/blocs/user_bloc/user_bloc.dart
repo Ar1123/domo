@@ -9,27 +9,47 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   final SharedPrefencesUseCase sharedPrefencesUseCase;
   final UserUSerCaseDomain uSerCaseDomain;
+  final AuthUseCaseDomnain authUseCaseDomnain;
   UserBloc({
     required this.sharedPrefencesUseCase,
     required this.uSerCaseDomain,
+    required this.authUseCaseDomnain,
   }) : super(UserInitial()) {
-    on<UserEvent>((event, emit) {
-    });
+    on<UserEvent>((event, emit) {});
   }
 
-  Future<UserEntities> getUser()async{
-      UserEntities? userEntities;
-      String id = "";
-      final resultId = await sharedPrefencesUseCase.getKeyString(key: "uid");
-      resultId.fold((l) {}, (r) {
-        id = r;
-      });
-      final user = await uSerCaseDomain.getUser(id: id);
-      user.fold((l) {}, (r) {
-        userEntities = r;
-      });
+  Future<UserEntities> getUser() async {
+    UserEntities? userEntities;
+    String id = "";
+    final resultId = await sharedPrefencesUseCase.getKeyString(key: "uid");
+    resultId.fold((l) {}, (r) {
+      id = r;
+    });
+    final user = await uSerCaseDomain.getUser(id: id);
+    user.fold((l) {}, (r) {
+      userEntities = r;
+    });
 
-      return userEntities!;
+    return userEntities!;
+  }
 
+  Future<String> _getIdUser() async {
+    String id = "";
+    final getId = await authUseCaseDomnain.getUserId();
+    getId.fold((l) {}, (r) {
+      id = r;
+    });
+    return id;
+  }
+
+  Future<bool> udateUser({required Map<String, dynamic> data}) async {
+    bool status = false;
+    final getId = await _getIdUser();
+    final update = await uSerCaseDomain.updateUser(data: data, id: getId);
+    update.fold((l) {}, (r) {
+      status = r;
+    });
+
+    return status;
   }
 }

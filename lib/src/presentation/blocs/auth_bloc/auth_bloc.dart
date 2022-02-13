@@ -84,17 +84,31 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(CloseInAuthState());
     }, (r) async {
       if (r.user != null) {
-        final result2 = await uSerCaseDomain.createUser(data: {
-          "uid": r.user!.uid,
-          "active": true,
-          "accountComplete": false,
+        final userExits = await uSerCaseDomain.getUser(id: r.user!.uid);
+
+        bool exits = false;
+        userExits.fold((l) {}, (r) {
+          if (r.uid!.isEmpty) {
+            exits = true;
+          }
         });
-        result2.fold((l) {
-          emit(ErrorInAuthState(message: 'Error a crear cuenta'));
-        }, (r) {
+
+        if (exits) {
+          final result2 = await uSerCaseDomain.createUser(data: {
+            "uid": r.user!.uid,
+            "active": true,
+            "accountComplete": false,
+          });
+          result2.fold((l) {
+            emit(ErrorInAuthState(message: 'Error a crear cuenta'));
+          }, (r) {
+            emit(NextInAuthState());
+            emit(CloseInAuthState());
+          });
+        } else {
           emit(NextInAuthState());
           emit(CloseInAuthState());
-        });
+        }
       }
     });
   }

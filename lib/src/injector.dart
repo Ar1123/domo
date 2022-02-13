@@ -31,6 +31,7 @@ Future<void> initLocator() async {
   locator.registerFactory(() => UserBloc(
         sharedPrefencesUseCase: locator(),
         uSerCaseDomain: locator(),
+        authUseCaseDomnain: locator(),
       ));
 
 /*

@@ -9,6 +9,7 @@ abstract class AuthRemoteDataSource {
       {required PhoneAuthCredential phoneAuthCredential});
   Future<bool> verifySession();
   Future<void> logOut();
+  Future<String> getUserId();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -60,6 +61,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } catch (e) {
       Future.error('Error al verificar sesión $e');
       status = false;
+      throw ServerExceptions(message: '');
+    }
+  }
+
+  @override
+  Future<String> getUserId() async{
+    String id = ""; 
+    try {
+      user = auth.currentUser;
+      if (user != null) {
+        id = user!.uid;
+      }
+      return id;
+    } catch (e) {
+      Future.error('Error al verificar sesión $e');
       throw ServerExceptions(message: '');
     }
   }

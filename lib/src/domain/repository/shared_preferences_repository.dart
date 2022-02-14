@@ -22,6 +22,7 @@ abstract class SharedPreferencesRepositoryDomain{
 Future<Either<Failure,bool>> setKeyString({required String key, required String value});
 Future<Either<Failure,bool>> setKeyDouble({required String key, required double value});
 Future<Either<Failure,bool>> setKeyInt({required String key, required int value});
+Future<Either<Failure,bool>> setKeyListString({required String key, required List<String> value});
 Future<Either<Failure,bool>> setKeyBool({required String key, required bool value});
 
 

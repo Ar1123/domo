@@ -8,3 +8,13 @@ abstract class ServiceState extends Equatable {
 }
 
 class ServiceInitial extends ServiceState {}
+
+class ShowImageFromLocal extends ServiceState {
+  final List<String> path;
+
+  const ShowImageFromLocal({
+    required this.path,
+  });
+}
+class NextStateC extends ServiceState{}
+class ErrorStateC extends ServiceState{}

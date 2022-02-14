@@ -87,4 +87,11 @@ class SharedPreferencesRepositoryImpl implements SharedPreferencesRepositoryDoma
       });
   }
 
+  @override
+  Future<Either<Failure, bool>> setKeyListString({required String key, required List<String> value}) {
+  return responseCache(()async{
+        return await sharedPreferencesLocalDataSource.setKeyListString(key: key, value: value);
+      });
+  }
+
 }

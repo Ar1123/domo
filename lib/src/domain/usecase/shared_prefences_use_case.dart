@@ -22,5 +22,7 @@ Future<Either<Failure,bool>> setKeyString({required String key, required String 
 Future<Either<Failure,bool>> setKeyDouble({required String key, required double value})=>sharedPreferencesRepositoryDomain.setKeyDouble(key: key, value: value);
 Future<Either<Failure,bool>> setKeyInt({required String key, required int value})=>sharedPreferencesRepositoryDomain.setKeyInt(key: key, value: value);
 Future<Either<Failure,bool>> setKeyBool({required String key, required bool value})=>sharedPreferencesRepositoryDomain.setKeyBool(key: key, value: value);
+Future<Either<Failure,bool>> setKeyListString({required String key, required List<String> value})=>sharedPreferencesRepositoryDomain.setKeyListString(key: key, value: value);
+
 
 }

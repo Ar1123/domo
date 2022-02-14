@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -38,6 +41,7 @@ class _CreateServicePageState extends State<CreateServicePage> {
   String dep = "";
   String date = "";
   String hour = "";
+  bool loading = false;
 
   final serviceBloc = locator<ServiceBloc>();
   @override
@@ -57,192 +61,290 @@ class _CreateServicePageState extends State<CreateServicePage> {
           ),
           body: Container(
             margin: EdgeInsets.symmetric(
-              horizontal: size.width * .04,
-              vertical: size.height * .05,
+              horizontal: (loading) ? 0 : size.width * .04,
+              vertical: (loading)?0:size.height * .05,
             ),
             child: SingleChildScrollView(
-              child: Column(
+              child: Stack(
                 children: [
-                  CustomContainer(
-                    child: ListTile(
-                      onTap: () {
-                        _selectedServiceCategory(size: size);
-                      },
-                      horizontalTitleGap: 0,
-                      title: Text(
-                        (service.isNotEmpty)
-                            ? service
-                            : 'Categoria del servicio',
-                        style: textStyle(
-                          color: colorText,
-                          size: size.height * .023,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      trailing: Icon(
-                        Icons.add_circle_outline_sharp,
-                        color: colorText,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * .02,
-                  ),
-                  CustomContainer(
-                    child: ListTile(
-                      onTap: () async {
-                        final resultCity = await showSearch(
-                          context: context,
-                          delegate: DelegeateCity(list: []),
-                        );
-                        dep = resultCity!.departamento.toString();
-                        city = resultCity.city.toString();
-                        setState(() {});
-                      },
-                      horizontalTitleGap: 0,
-                      leading: Icon(
-                        Icons.search_outlined,
-                        color: colorText,
-                      ),
-                      title: Text(
-                        (city.isNotEmpty) ? "$city ()" : 'Ciudad',
-                        style: textStyle(
-                          color: colorText,
-                          size: size.height * .023,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * .02,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  Column(
                     children: [
-                      Container(
-                        width: size.width * .4,
-                        child: CustomContainer(
-                          child: ListTile(
-                            onTap: () async {
-                              final dateSelected = await selectDate(context);
-                              if (dateSelected.isNotEmpty) {
-                                date = dateSelected;
-                                setState(() {});
-                              }
-                            },
-                            horizontalTitleGap: 0,
-                            title: Text(
-                              (date.isNotEmpty) ? date : 'Fecha',
-                              style: textStyle(
-                                color: colorText,
-                                size: size.height * .023,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                            leading: Icon(
-                              Icons.calendar_today_outlined,
+                      CustomContainer(
+                        child: ListTile(
+                          onTap: () {
+                            _selectedServiceCategory(size: size);
+                          },
+                          horizontalTitleGap: 0,
+                          title: Text(
+                            (service.isNotEmpty)
+                                ? service
+                                : 'Categoria del servicio',
+                            style: textStyle(
                               color: colorText,
+                              size: size.height * .023,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          trailing: Icon(
+                            Icons.add_circle_outline_sharp,
+                            color: colorText,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * .02,
+                      ),
+                      CustomContainer(
+                        child: ListTile(
+                          onTap: () async {
+                            final resultCity = await showSearch(
+                              context: context,
+                              delegate: DelegeateCity(list: []),
+                            );
+                            dep = resultCity!.departamento.toString();
+                            city = resultCity.city.toString();
+                            setState(() {});
+                          },
+                          horizontalTitleGap: 0,
+                          leading: Icon(
+                            Icons.search_outlined,
+                            color: colorText,
+                          ),
+                          title: Text(
+                            (city.isNotEmpty) ? "$city ($dep)" : 'Ciudad',
+                            style: textStyle(
+                              color: colorText,
+                              size: size.height * .023,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
                         ),
                       ),
-                      Container(
-                        width: size.width * .4,
-                        child: CustomContainer(
-                          child: ListTile(
-                            horizontalTitleGap: 0,
-                            onTap: () async {
-                              final hourSelected = await selectedHour(context);
-                              if (hourSelected.isNotEmpty) {
-                                hour = hourSelected;
-                                setState(() {});
-                              }
-                            },
-                            title: Text(
-                              (hour.isNotEmpty) ? hour : 'Hora',
-                              style: textStyle(
-                                color: colorText,
-                                size: size.height * .023,
-                                fontWeight: FontWeight.normal,
+                      SizedBox(
+                        height: size.height * .02,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: size.width * .4,
+                            child: CustomContainer(
+                              child: ListTile(
+                                onTap: () async {
+                                  final dateSelected =
+                                      await selectDate(context);
+                                  if (dateSelected.isNotEmpty) {
+                                    date = dateSelected;
+                                    setState(() {});
+                                  }
+                                },
+                                horizontalTitleGap: 0,
+                                title: Text(
+                                  (date.isNotEmpty) ? date : 'Fecha',
+                                  style: textStyle(
+                                    color: colorText,
+                                    size: size.height * .023,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                leading: Icon(
+                                  Icons.calendar_today_outlined,
+                                  color: colorText,
+                                ),
                               ),
                             ),
-                            leading: FaIcon(
-                              FontAwesomeIcons.clock,
-                              color: colorText,
+                          ),
+                          Container(
+                            width: size.width * .4,
+                            child: CustomContainer(
+                              child: ListTile(
+                                horizontalTitleGap: 0,
+                                onTap: () async {
+                                  final hourSelected =
+                                      await selectedHour(context);
+                                  if (hourSelected.isNotEmpty) {
+                                    hour = hourSelected;
+                                    setState(() {});
+                                  }
+                                },
+                                title: Text(
+                                  (hour.isNotEmpty) ? hour : 'Hora',
+                                  style: textStyle(
+                                    color: colorText,
+                                    size: size.height * .023,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                leading: FaIcon(
+                                  FontAwesomeIcons.clock,
+                                  color: colorText,
+                                ),
+                              ),
                             ),
                           ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: size.height * .02,
+                      ),
+                      InputWidget(
+                        labeltext: 'Describe brevemente tu servicio',
+                        onchanged: (e) {},
+                        lines: 6,
+                        textEditingController: _obsController,
+                      ),
+                      SizedBox(
+                        height: size.height * .02,
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Añadir imagenes',
+                          style: textStyle(
+                            color: colorText,
+                            size: size.height * .023,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
+                      ),
+                      BlocBuilder<ServiceBloc, ServiceState>(
+                        builder: (context, state) {
+                          return BlocListener<ServiceBloc, ServiceState>(
+                            listener: (context, state) {
+                              if (state is ShowImageFromLocal) {
+                                img = state.path;
+                              }
+                            },
+                            child: (img.isEmpty)
+                                ? GestureDetector(
+                                    onTap: () {
+                                      _selectTypeImage(
+                                        size: size,
+                                        context: context,
+                                      );
+                                    },
+                                    child: Container(
+                                      height: size.height * .2,
+                                      child: Image.asset(kAddImageService),
+                                    ))
+                                : Container(
+                                    width: size.width,
+                                    height: size.height * .26,
+                                    child: StaggeredGridView.countBuilder(
+                                      crossAxisCount: 4,
+                                      itemCount: img.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) =>
+                                              Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: (img[index]
+                                                .contains(kAddImageService))
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  _selectTypeImage(
+                                                    size: size,
+                                                    context: context,
+                                                  );
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  height: size.height * .2,
+                                                  child: Image.asset(
+                                                      kAddImageService),
+                                                ),
+                                              )
+                                            : Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    image: DecorationImage(
+                                                        image: FileImage(
+                                                          File(
+                                                            img[index],
+                                                          ),
+                                                        ),
+                                                        fit: BoxFit.cover)),
+                                              ),
+                                      ),
+                                      staggeredTileBuilder: (int index) =>
+                                          StaggeredTile.count(
+                                              2, index.isEven ? 2 : 2),
+                                      mainAxisSpacing: 4.0,
+                                      crossAxisSpacing: 4.0,
+                                    ),
+                                  ),
+                          );
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * .02,
+                      ),
+                      ButtonWidget(
+                        backGroundColor: colorText,
+                        borderColor: colorText,
+                        textColor: whiteColor,
+                        text: 'Crear',
+                        action: () async {
+                          loading = true;
+                          Future.delayed(Duration(seconds: 4), () {
+                            custonTopSnackbar(
+                              context: context,
+                              message: "Aun estamos guardando tus datos",
+                              type: Types.error,
+                            );
+                          });
+                          setState(() {});
+                          final String idCarga =
+                              DateTime.now().millisecondsSinceEpoch.toString() +
+                                  "" +
+                                  DateTime.now().year.toString() +
+                                  "" +
+                                  DateTime.now().day.toString();
+                          final result = await serviceBloc.createService(data: {
+                            "id": idCarga,
+                            "category": service,
+                            "city": city,
+                            "dep": dep,
+                            "date": date,
+                            "hour": hour,
+                            "description": _obsController.text.trim(),
+                          }, file: img);
+
+                          if (result) {
+                            Navigator.pop(context);
+                            loading = false;
+                            setState(() {});
+                          } else {
+                            loading = false;
+                            setState(() {});
+                            custonTopSnackbar(
+                              context: context,
+                              message: "Error al guardar datos",
+                              type: Types.error,
+                            );
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * .05,
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: size.height * .02,
-                  ),
-                  InputWidget(
-                    labeltext: 'Describe brevemente tu servicio',
-                    onchanged: (e) {},
-                    lines: 6,
-                    textEditingController: _obsController,
-                  ),
-                  SizedBox(
-                    height: size.height * .02,
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Añadir imagenes',
-                      style: textStyle(
-                        color: colorText,
-                        size: size.height * .023,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                  (img.isEmpty)
-                      ? GestureDetector(
-                          onTap: () {
-                            _selectTypeImage(size: size);
-                          },
-                          child: Container(
-                            height: size.height * .2,
-                            child: Image.asset(kAddImageService),
-                          ),
+                  (loading)
+                      ? Container(
+                          color: blackColor.withOpacity(.5),
+                          height: size.height,
+                          child: Center(child: CircularProgressIndicator()),
                         )
-                      : Container(
-                          width: size.width,
-                          height: size.height * .26,
-                          child: StaggeredGridView.countBuilder(
-                            crossAxisCount: 4,
-                            itemCount: 2,
-                            itemBuilder: (BuildContext context, int index) =>
-                                Container(
-                                    color: Colors.green,
-                                    child: Center(
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.white,
-                                        child: Text(''),
-                                      ),
-                                    )),
-                            staggeredTileBuilder: (int index) =>
-                                StaggeredTile.count(2, index.isEven ? 2 : 2),
-                            mainAxisSpacing: 4.0,
-                            crossAxisSpacing: 4.0,
-                          ),
-                        ),
-                  SizedBox(
-                    height: size.height * .02,
-                  ),
-                  ButtonWidget(
-                    backGroundColor: colorText,
-                    borderColor: colorText,
-                    textColor: whiteColor,
-                    text: 'Crear',
-                    action: () {},
-                  ),
-                  SizedBox(
-                    height: size.height * .05,
-                  ),
+                      : SizedBox()
                 ],
               ),
             ),
@@ -329,13 +431,20 @@ class _CreateServicePageState extends State<CreateServicePage> {
     return (result != null) ? await convert(result) : '';
   }
 
-  void _selectTypeImage({required Size size}) => customShowModalBottonSheet(
+  void _selectTypeImage({required Size size, required BuildContext context}) =>
+      customShowModalBottonSheet(
         context: context,
         child: SizedBox(
           height: size.height * .18,
           child: Column(
             children: [
               ListTile(
+                onTap: () {
+                  context
+                      .read<ServiceBloc>()
+                      .add(OnEventGetImageFromLocal(type: 1));
+                  Navigator.pop(context);
+                },
                 leading: Icon(
                   Icons.camera_alt_outlined,
                   color: colorText,
@@ -349,6 +458,12 @@ class _CreateServicePageState extends State<CreateServicePage> {
                 ),
               ),
               ListTile(
+                onTap: () {
+                  context
+                      .read<ServiceBloc>()
+                      .add(OnEventGetImageFromLocal(type: 2));
+                  Navigator.pop(context);
+                },
                 leading: FaIcon(
                   FontAwesomeIcons.image,
                   color: colorText,

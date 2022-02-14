@@ -124,7 +124,7 @@ class SharedPreferencesLocalDataSourceImpl
   @override
   Future<bool> setKeyInt({required String key, required int value}) async {
     try {
-      sharedPreferences.setInt(key, value);
+     await sharedPreferences.setInt(key, value);
       return true;
     } catch (e) {
       Future.error('Error al guardar datos $e');
@@ -136,7 +136,7 @@ class SharedPreferencesLocalDataSourceImpl
   Future<bool> setKeyListString(
       {required String key, required List<String> value}) async {
     try {
-      sharedPreferences.setStringList(key, value);
+   await    sharedPreferences.setStringList(key, value);
       return true;
     } catch (e) {
       Future.error('Error al guardar datos $e');

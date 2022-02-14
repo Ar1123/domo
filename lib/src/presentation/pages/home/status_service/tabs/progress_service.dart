@@ -54,7 +54,6 @@ class ProgressService extends StatelessWidget {
                   return SizedBox(
                     height: size.height,
                     child: Container(
-                      margin: EdgeInsets.only(top: size.height * .3),
                       child: Center(child: CircularProgressIndicator()),
                     ),
                   );

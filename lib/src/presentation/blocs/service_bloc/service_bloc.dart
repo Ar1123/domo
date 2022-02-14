@@ -129,6 +129,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
       "uid": await userBloc.getIdUser(),
       "id": idService,
       "city": data['city'],
+      "category": data['category'],
       "dep": data['dep'],
       "hour": data['hour'],
       "date": data['date'],

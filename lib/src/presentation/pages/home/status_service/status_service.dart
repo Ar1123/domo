@@ -16,7 +16,7 @@ class _TabStatusServiceState extends State<TabStatusService>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     super.initState();
   }
 
@@ -25,7 +25,7 @@ class _TabStatusServiceState extends State<TabStatusService>
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           backgroundColor: backGroundColor,
           appBar: PreferredSize(
@@ -34,9 +34,11 @@ class _TabStatusServiceState extends State<TabStatusService>
               size.height * .15,
             ),
             child: AppBar(
+              
               backgroundColor: backGroundColor,
               bottom: TabBar(
                 controller: _tabController,
+                
                 isScrollable: true,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 5,
@@ -51,6 +53,20 @@ class _TabStatusServiceState extends State<TabStatusService>
                 unselectedLabelColor: blackColor,
                 tabs: [
                   _item(
+                    'Publicadas',
+                    size,
+                    const Icon(
+                      Icons.public,
+                    ),
+                  ),
+                  _item(
+                    'Ofertas',
+                    size,
+                    const Icon(
+                      Icons.monetization_on_outlined,
+                    ),
+                  ),
+                  _item(
                     'En progreso',
                     size,
                     const Icon(
@@ -58,14 +74,7 @@ class _TabStatusServiceState extends State<TabStatusService>
                     ),
                   ),
                   _item(
-                    'Ofertadas',
-                    size,
-                    const Icon(
-                      Icons.monetization_on_outlined,
-                    ),
-                  ),
-                  _item(
-                    'Completadas',
+                    'Finalizdas',
                     size,
                     const Icon(
                       Icons.check,
@@ -81,6 +90,7 @@ class _TabStatusServiceState extends State<TabStatusService>
               ProgressService(),
               Text('2'),
               Text('3'),
+              Text('4'),
             ],
           ),
         ),
@@ -96,8 +106,8 @@ class _TabStatusServiceState extends State<TabStatusService>
       Column(
         children: [
           Container(
-            width: size.width * .3,
-            height: size.height * .1,
+            width: size.width * .26,
+            height: size.height * .07,
             child: icon,
             alignment: Alignment.center,
             decoration: BoxDecoration(

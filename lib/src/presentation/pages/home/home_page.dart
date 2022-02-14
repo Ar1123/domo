@@ -48,7 +48,9 @@ class _HomePageState extends State<HomePage>
       child: Scaffold(
         key: _scaffoldKey,
         drawer: Drawer(
-          backgroundColor: backGroundColor,
+
+          // backgroundColor: backGroundColor,
+          
           child: _drawer(size),
         ),
         backgroundColor: backGroundColor,
@@ -202,111 +204,114 @@ class _HomePageState extends State<HomePage>
     //               ),),),);
   }
 
-  Widget _drawer(Size size) => SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                      left: size.width * .03,
-                      bottom: size.height * .01,
-                      top: size.height * .03),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: colorText,
-                      width: 2,
-                    ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl: "https://www.online-image-editor.com/styles/2019/images/power_girl_editor.png",
-                      placeholder: (_, __) => Center(
-                        child: Container(
-                          height: size.height * .02,
-                          width: size.width * .04,
-                          color: whiteColor,
-                          child: CircularProgressIndicator(),
-                        ),
+  Widget _drawer(Size size) => Container(
+    color: backGroundColor,
+    child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: size.width * .03,
+                        bottom: size.height * .01,
+                        top: size.height * .03),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: colorText,
+                        width: 2,
                       ),
-                      errorWidget: (_, __, ___) => Image.asset(
-                        kImageUser,
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl: "https://www.online-image-editor.com/styles/2019/images/power_girl_editor.png",
+                        placeholder: (_, __) => Center(
+                          child: Container(
+                            height: size.height * .02,
+                            width: size.width * .04,
+                            color: whiteColor,
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                        errorWidget: (_, __, ___) => Image.asset(
+                          kImageUser,
+                          fit: BoxFit.cover,
+                        ),
+                        width: 90.0,
+                        height: 90.0,
                         fit: BoxFit.cover,
                       ),
-                      width: 90.0,
-                      height: 90.0,
-                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-              ],
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(
-                top: size.height * .01,
-                left: size.height * .03,
-                right: size.height * .03,
+                ],
               ),
-              child: Text(
-                "Usuario generador :)",
-                style: textStyle(
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(
+                  top: size.height * .01,
+                  left: size.height * .03,
+                  right: size.height * .03,
+                ),
+                child: Text(
+                  "Usuario generador :)",
+                  style: textStyle(
+                    color: colorText,
+                    size: size.height * .035,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              _itemTap(
+                text: "Perfil",
+                icon: Icon(
+                  Icons.person_outline,
                   color: colorText,
-                  size: size.height * .035,
-                  fontWeight: FontWeight.w600,
                 ),
+                action: () {
+                  Navigator.pushNamed(context, 'profilePage');
+                },
+                size: size,
+                isIcon: false,
               ),
-            ),
-            _itemTap(
-              text: "Perfil",
-              icon: Icon(
-                Icons.person_outline,
-                color: colorText,
+              _itemTap(
+                text: "Aspectos legales",
+                icon: Icon(
+                  Icons.description_outlined,
+                  color: colorText,
+                ),
+                action: () {},
+                size: size,
+                isIcon: false,
               ),
-              action: () {
-                Navigator.pushNamed(context, 'profilePage');
-              },
-              size: size,
-              isIcon: false,
-            ),
-            _itemTap(
-              text: "Aspectos legales",
-              icon: Icon(
-                Icons.description_outlined,
-                color: colorText,
+              _itemTap(
+                text: "Comentario",
+                icon: Icon(
+                  Icons.message_outlined,
+                  color: colorText,
+                ),
+                action: () {},
+                size: size,
+                isIcon: false,
               ),
-              action: () {},
-              size: size,
-              isIcon: false,
-            ),
-            _itemTap(
-              text: "Comentario",
-              icon: Icon(
-                Icons.message_outlined,
-                color: colorText,
+              _itemTap(
+                text: "Salir",
+                icon: Icon(
+                  Icons.power_settings_new_rounded,
+                  color: colorText,
+                ),
+                action: () async {
+                  await authBloc.logAuth();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      'authPhone', (Route<dynamic> route) => false);
+                },
+                size: size,
+                isIcon: true,
               ),
-              action: () {},
-              size: size,
-              isIcon: false,
-            ),
-            _itemTap(
-              text: "Salir",
-              icon: Icon(
-                Icons.power_settings_new_rounded,
-                color: colorText,
-              ),
-              action: () async {
-                await authBloc.logAuth();
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    'authPhone', (Route<dynamic> route) => false);
-              },
-              size: size,
-              isIcon: true,
-            ),
-          ],
+            ],
+          ),
         ),
-      );
+  );
   Widget _itemTap(
           {required String text,
           required Widget icon,

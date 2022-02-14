@@ -32,6 +32,7 @@ class ProgressService extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: list.length,
                         itemBuilder: (_, index) => _card(
+                          context: context,
                           size: size,
                           serviceEntities: list[index]
                         ),
@@ -64,27 +65,32 @@ class ProgressService extends StatelessWidget {
     );
   }
 
-  Widget _card({required Size size, required ServiceEntities serviceEntities}) => Container(
-        height: size.height * .16,
-        width: size.width * .9,
-        margin: EdgeInsets.symmetric(
-            vertical: size.height * .01, horizontal: size.width * .04),
-        child: Column(
-          children: [
-            SizedBox(
-              height: size.height * .04,
-            ),
-            _itemCard(
-                text1: 'Ciudad:', text2: '${serviceEntities.city} (${serviceEntities.dep})', size: size),
-            _itemCard(text1: 'Fecha:', text2: '${serviceEntities.date}', size: size),
-            _itemCard(text1: 'Hora:', text2: '${serviceEntities.hour}', size: size),
-          ],
+  Widget _card({required Size size, required ServiceEntities serviceEntities, required BuildContext context}) => GestureDetector(
+    onTap: (){
+      Navigator.pushNamed(context, "detailService", arguments: {"service":serviceEntities});
+    },
+    child: Container(
+          height: size.height * .16,
+          width: size.width * .9,
+          margin: EdgeInsets.symmetric(
+              vertical: size.height * .01, horizontal: size.width * .04),
+          child: Column(
+            children: [
+              SizedBox(
+                height: size.height * .04,
+              ),
+              _itemCard(
+                  text1: 'Ciudad:', text2: '${serviceEntities.city} (${serviceEntities.dep})', size: size),
+              _itemCard(text1: 'Fecha:', text2: '${serviceEntities.date}', size: size),
+              _itemCard(text1: 'Hora:', text2: '${serviceEntities.hour}', size: size),
+            ],
+          ),
+          decoration: BoxDecoration(
+            color: blueColorTwo,
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-        decoration: BoxDecoration(
-          color: blueColorTwo,
-          borderRadius: BorderRadius.circular(10),
-        ),
-      );
+  );
   Widget _itemCard(
           {required String text1, required String text2, required Size size}) =>
       Row(

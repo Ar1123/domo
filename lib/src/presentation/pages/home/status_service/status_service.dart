@@ -31,7 +31,7 @@ class _TabStatusServiceState extends State<TabStatusService>
           appBar: PreferredSize(
             preferredSize: Size(
               size.width * 1,
-              size.height * .15,
+              size.height * .12,
             ),
             child: AppBar(
               

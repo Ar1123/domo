@@ -9,6 +9,7 @@ class ServiceEntities extends Equatable {
   final String? description;
   final String? id;
   final String? dep;
+  final String? category;
   final bool? status;
   final bool? finalizada;
 
@@ -23,6 +24,7 @@ class ServiceEntities extends Equatable {
     this.dep,
     this.status,
     this.finalizada,
+    this.category,
   });
 
   @override
@@ -37,5 +39,6 @@ class ServiceEntities extends Equatable {
         dep,
         status,
         finalizada,
+        category,
       ];
 }

@@ -16,6 +16,7 @@ class ServiceModel extends ServiceEntities {
     String? hour,
     String? city,
     String? description,
+    String? category,
     String? id,
     String? dep,
     bool? status,
@@ -31,6 +32,7 @@ class ServiceModel extends ServiceEntities {
     imagesevice: imagesevice,
     status: status,
     uid: uid,
+    category: category,
   
 
   );
@@ -44,6 +46,7 @@ class ServiceModel extends ServiceEntities {
         description: json["description"],
         id: json["id"],
         dep: json["dep"],
+        category: json["category"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,5 +58,6 @@ class ServiceModel extends ServiceEntities {
         "description": description,
         "id": id,
         "dep": dep,
+        "category": category,
       };
 }

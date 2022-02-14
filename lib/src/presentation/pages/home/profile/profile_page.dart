@@ -39,28 +39,45 @@ class _ProfilePageState extends State<ProfilePage> {
     'Cédula extranjeria',
   ];
   int? _currentIndex;
+  void _initData(UserEntities userEntities) {
+    _nameController.value =
+        _nameController.value.copyWith(text: userEntities.name);
+    _lastNameController.value =
+        _lastNameController.value.copyWith(text: userEntities.lastName);
+    _ideNameController.value =
+        _ideNameController.value.copyWith(text: userEntities.ide);
+    _phoneController.value =
+        _phoneController.value.copyWith(text: userEntities.phone);
+
+    _typeIde = userEntities.typeIde!;
+    
+  }
+
+  bool isComplete = true;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        appBar: apbar(title: (ktitleProfile), size: size,
-        action: (){
-          Navigator.pushReplacementNamed(context, "homePage");
-        }),
+        appBar: apbar(
+            title: (ktitleProfile),
+            size: size,
+            action: () {
+              Navigator.pushReplacementNamed(context, "homePage");
+            }),
         backgroundColor: backGroundColor,
         body: FutureBuilder<UserEntities>(
             future: userBloc.getUser(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data!.typUser == 1) {
-                  return _bodyServidor(size: size);
-                } else {
-                  return _bodyClient(
-                    size: size,
-                  );
+                if(isComplete){
+                  _initData(snapshot.data!);
+                  isComplete = false;
                 }
+                return _bodyClient(
+                  size: size,
+                );
               } else {
                 return SizedBox(
                   height: size.height,
@@ -77,7 +94,8 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Container(
             height: size.height * .14,
             child: CachedNetworkImage(
-              imageUrl: '',
+              imageUrl:
+                  'https://www.online-image-editor.com/styles/2019/images/power_girl_editor.png',
               placeholder: (_, __) => Container(
                 height: size.height * .02,
                 width: size.width * .04,

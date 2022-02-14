@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:domo/src/domain/entities/user_entities.dart';
 import 'package:domo/src/domain/usecase/use_case_domain.dart';
@@ -25,6 +27,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     resultId.fold((l) {}, (r) {
       id = r;
     });
+    log("$id  message");
     final user = await uSerCaseDomain.getUser(id: id);
     user.fold((l) {}, (r) {
       userEntities = r;

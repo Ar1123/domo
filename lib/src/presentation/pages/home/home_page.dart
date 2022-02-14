@@ -2,8 +2,9 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:domo/src/core/constant/asset_images.dart';
+import 'package:domo/src/injector.dart';
+import 'package:domo/src/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../config/style/style.dart';
 import 'status_service/status_service.dart';
@@ -19,6 +20,8 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final authBloc = locator<AuthBloc>();
 
   int _currentIndex = 0;
   @override
@@ -218,7 +221,7 @@ class _HomePageState extends State<HomePage>
                   ),
                   child: ClipOval(
                     child: CachedNetworkImage(
-                      imageUrl: "",
+                      imageUrl: "https://www.online-image-editor.com/styles/2019/images/power_girl_editor.png",
                       placeholder: (_, __) => Center(
                         child: Container(
                           height: size.height * .02,
@@ -261,7 +264,9 @@ class _HomePageState extends State<HomePage>
                 Icons.person_outline,
                 color: colorText,
               ),
-              action: () {},
+              action: () {
+                Navigator.pushNamed(context, 'profilePage');
+              },
               size: size,
               isIcon: false,
             ),
@@ -291,7 +296,11 @@ class _HomePageState extends State<HomePage>
                 Icons.power_settings_new_rounded,
                 color: colorText,
               ),
-              action: () {},
+              action: () async {
+                await authBloc.logAuth();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    'authPhone', (Route<dynamic> route) => false);
+              },
               size: size,
               isIcon: true,
             ),

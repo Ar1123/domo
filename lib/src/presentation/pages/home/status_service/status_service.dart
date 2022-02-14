@@ -1,6 +1,4 @@
 import 'package:domo/src/config/style/style.dart';
-import 'package:domo/src/injector.dart';
-import 'package:domo/src/presentation/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 
 import 'tabs/progress_service.dart';
@@ -60,7 +58,7 @@ class _TabStatusServiceState extends State<TabStatusService>
                     ),
                   ),
                   _item(
-                    'Pendientes',
+                    'Ofertadas',
                     size,
                     const Icon(
                       Icons.monetization_on_outlined,

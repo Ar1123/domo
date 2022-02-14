@@ -90,13 +90,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final userExits = await uSerCaseDomain.getUser(id: r.user!.uid);
 
         bool exits = false;
-        userExits.fold((l) {}, (r) {
-          if (r.uid!.isEmpty) {
+        userExits.fold((l) {}, (r2) {
+          if (r2.uid!.isEmpty) {
             exits = true;
+          }else{
+            exits = false;
           }
         });
 
         if (exits) {
+          log(" dddddddddddddddddd");
+
           final result2 = await uSerCaseDomain.createUser(data: {
             "uid": r.user!.uid,
             "active": true,
@@ -110,7 +114,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(CloseInAuthState());
           });
         } else {
-          emit(NextInAuthState());
+          emit(IsLooginState());
           emit(CloseInAuthState());
         }
       }
@@ -146,9 +150,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             "departamento": r[i].departamento,
           });
         }
-        log("sssssssssssssssssssssssssss");
         await sharedPrefencesUseCase.setKeyInt(key: "dataCache", value: 1);
       });
     }
+  }
+
+  Future<void> logAuth()async{
+    await authUseCaseDomnain.logOut();
+
   }
 }

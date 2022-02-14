@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:domo/src/presentation/pages/auth/verification_code.dart';
 
 import '../../../injector.dart';
@@ -44,11 +42,11 @@ class _AuthPhonePageState extends State<AuthPhonePage> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data!) {
-                        Future.delayed(Duration(seconds: 1), () {
+                  Future.delayed(Duration(seconds: 1), () {
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                        'selectUserType', (Route<dynamic> route) => false);
+                        'homePage', (Route<dynamic> route) => false);
                   });
-          return Container(
+                  return Container(
                       height: size.height,
                       child: Center(
                         child: CircularProgressIndicator(),

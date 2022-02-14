@@ -24,6 +24,9 @@ class ErrorInAuthState extends AuthState {
 class NextInAuthState extends AuthState {
   NextInAuthState();
 }
+class IsLooginState extends AuthState {
+  IsLooginState();
+}
 
 class ShowCode extends AuthState {
   final PhoneAuthCredential? phoneAuthCredential;

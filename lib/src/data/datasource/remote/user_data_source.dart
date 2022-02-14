@@ -31,7 +31,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     try {
       USerModel uSerModel = USerModel();
       final user = await _reference.doc(id).get();
-      uSerModel  = USerModel.fromJson(user.data() as Map<String, dynamic>);
+      if (user.exists) {
+        uSerModel = USerModel.fromJson(user.data() as Map<String, dynamic>);
+      }else{
+        uSerModel = USerModel.fromJson({});
+      }
       return uSerModel;
     } on FirebaseException catch (e) {
       log('Error al obtener usuario $e');
@@ -41,10 +45,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<bool> update(
-      {required Map<String, dynamic> data, required String id}) async{
+      {required Map<String, dynamic> data, required String id}) async {
     try {
-            await _reference.doc(id).update(data);
-            return true;
+      await _reference.doc(id).update(data);
+      return true;
     } on FirebaseException catch (e) {
       log('Error al actualizar usuario $e');
 

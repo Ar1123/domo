@@ -17,12 +17,20 @@ class USerModel extends UserEntities {
     bool? accountComplete,
     bool? active,
     String? uid,
-    int? typeUser,
+    String? lastName,
+    String? name,
+    String? typeIde,
+    String? ide,
+    String? phone,
   }) : super(
           accountComplete: accountComplete,
           active: active,
           uid: uid,
-          typUser: typeUser,
+          ide: ide,
+          lastName: lastName,
+          name: name,
+          phone: phone,
+          typeIde: typeIde,
         );
 
   factory USerModel.fromJson(Map<String, dynamic> json) => USerModel(
@@ -30,13 +38,21 @@ class USerModel extends UserEntities {
             (json["accountComplete"] == null) ? false : json["accountComplete"],
         active: (json["active"] == null) ? false : json["active"],
         uid: (json["uid"] == null) ? '' : json["uid"],
-        typeUser: (json["typeUser"] == null) ? 0 : json["typeUser"],
+        name: (json["name"] == null) ? '' : json["name"],
+        lastName: (json["lastName"] == null) ? '' : json["lastName"],
+        phone: (json["phone"] == null) ? '' : json["phone"],
+        typeIde: (json["typeIde"] == null) ? '' : json["typeIde"],
+        ide: (json["ide"] == null) ? '' : json["ide"],
       );
 
   Map<String, dynamic> toJson() => {
         "accountComplete": accountComplete,
         "active": active,
+        "name": name,
+        "lastName": lastName,
+        "typeIde": typeIde,
+        "ide": ide,
+        "phone": phone,
         "uid": uid,
-        "typeUser": typUser,
       };
 }

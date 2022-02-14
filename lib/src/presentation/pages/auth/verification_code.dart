@@ -138,7 +138,13 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                             if (state is NextInAuthState) {
                               loading = false;
                               Navigator.of(context).pushNamedAndRemoveUntil(
-                                  'selectUserType',
+                                  'profilePage',
+                                  (Route<dynamic> route) => false);
+                            }
+                            if (state is IsLooginState) {
+                              loading = false;
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  'homePage',
                                   (Route<dynamic> route) => false);
                             }
                             if (state is ErrorInAuthState) {

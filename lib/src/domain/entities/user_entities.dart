@@ -4,13 +4,21 @@ class UserEntities implements Equatable {
   final bool? accountComplete;
   final bool? active;
   final String? uid;
-  final int? typUser;//1: Usuario servidor; 2:Usuario cliente
+  final String? lastName;
+  final String? name;
+  final String? phone;
+  final String? typeIde;
+  final String? ide;
 
   UserEntities({
     this.accountComplete,
     this.active,
     this.uid,
-    this.typUser
+    this.ide,
+    this.lastName,
+    this.name,
+    this.phone,
+    this.typeIde,
   });
 
   @override
@@ -18,8 +26,11 @@ class UserEntities implements Equatable {
         accountComplete,
         active,
         uid,
-        typUser,
-
+        ide,
+        lastName,
+        name,
+        phone,
+        typeIde,
       ];
 
   @override

@@ -302,14 +302,8 @@ class _CreateServicePageState extends State<CreateServicePage> {
                             );
                           });
                           setState(() {});
-                          final String idCarga =
-                              DateTime.now().millisecondsSinceEpoch.toString() +
-                                  "" +
-                                  DateTime.now().year.toString() +
-                                  "" +
-                                  DateTime.now().day.toString();
+                        
                           final result = await serviceBloc.createService(data: {
-                            "id": idCarga,
                             "category": service,
                             "city": city,
                             "dep": dep,

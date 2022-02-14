@@ -1,4 +1,6 @@
 import 'package:domo/src/config/style/style.dart';
+import 'package:domo/src/injector.dart';
+import 'package:domo/src/presentation/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 
 import 'tabs/progress_service.dart';
@@ -17,7 +19,6 @@ class _TabStatusServiceState extends State<TabStatusService>
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
-
     super.initState();
   }
 

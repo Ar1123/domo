@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:domo/src/data/model/service_model.dart';
 
 import '../../core/errors/failures.dart';
 import '../../core/utils/future_response/future_response.dart';
@@ -26,7 +27,7 @@ class ServiceRepositoryImpl implements ServiceRepositoryDomanin{
   }
 
   @override
-  Future<Either<Failure, dynamic>> getServiceById({required String id}) {
+  Future<Either<Failure, List<ServiceModel>>> getServiceById({required String id}) {
     return response(()async{
     return await serviceRemoteDataSource.getServiceById(id: id);
   });

@@ -33,7 +33,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     return userEntities!;
   }
 
-  Future<String> _getIdUser() async {
+  Future<String> getIdUser() async {
     String id = "";
     final getId = await authUseCaseDomnain.getUserId();
     getId.fold((l) {}, (r) {
@@ -44,7 +44,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Future<bool> udateUser({required Map<String, dynamic> data}) async {
     bool status = false;
-    final getId = await _getIdUser();
+    final getId = await getIdUser();
     final update = await uSerCaseDomain.updateUser(data: data, id: getId);
     update.fold((l) {}, (r) {
       status = r;

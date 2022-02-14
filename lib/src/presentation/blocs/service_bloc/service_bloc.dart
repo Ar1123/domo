@@ -1,8 +1,9 @@
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
+import 'package:domo/src/domain/entities/service_entities.dart';
 import 'package:domo/src/domain/usecase/service_use_case.dart';
+import 'package:domo/src/presentation/blocs/blocs.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../core/constant/asset_images.dart';
@@ -17,12 +18,14 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
   final GetImageFromLocalUseCase getImageFromLocalUseCase;
   final SharedPrefencesUseCase sharedPrefencesUseCase;
   final ServiceUseCase serviceUseCase;
+  final UserBloc userBloc;
 
   ServiceBloc({
     required this.localCityUseCase,
     required this.getImageFromLocalUseCase,
     required this.sharedPrefencesUseCase,
     required this.serviceUseCase,
+    required this.userBloc,
   }) : super(ServiceInitial()) {
     on<ServiceEvent>((event, emit) {});
     on<OnEventGetImageFromLocal>(_onGetImageFromLocal);
@@ -41,7 +44,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
 
   void _onGetImageFromLocal(
       OnEventGetImageFromLocal event, Emitter emitter) async {
-        // await sharedPrefencesUseCase.clearPreferences("img");
+    // await sharedPrefencesUseCase.clearPreferences("img");
     if (event.type == 1) {
       List<String> temp = [];
       final result = await getImageFromLocalUseCase.getimageFromLocal(type: 1);
@@ -116,13 +119,41 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
   Future<bool> createService(
       {required Map<String, dynamic> data, required List<String> file}) async {
     bool status = false;
+    final String idService = DateTime.now().millisecondsSinceEpoch.toString() +
+        "" +
+        DateTime.now().year.toString() +
+        "" +
+        DateTime.now().day.toString();
+
+    final serviceData = {
+      "uid": await userBloc.getIdUser(),
+      "id": idService,
+      "city": data['city'],
+      "dep": data['dep'],
+      "hour": data['hour'],
+      "date": data['date'],
+      "description": data['description'],
+      "status": true,
+      "finalizada": false,
+    };
     final createService =
-        await serviceUseCase.createService(data: data, file: file);
+        await serviceUseCase.createService(data: serviceData, file: file);
     createService.fold((l) => {}, (r) {
       status = r;
     });
     await sharedPrefencesUseCase.clearPreferences("img");
 
     return status;
+  }
+
+  Future<List<ServiceEntities>> getServicesByUser() async {
+    List<ServiceEntities> list = [];
+    final getService =
+        await serviceUseCase.getServiceById(id: await userBloc.getIdUser());
+    getService.fold((l) {}, (r) {
+      list = r;
+    });
+
+    return list;
   }
 }

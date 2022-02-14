@@ -42,6 +42,7 @@ Future<void> initLocator() async {
    getImageFromLocalUseCase: locator(),
    sharedPrefencesUseCase: locator(),
    serviceUseCase: locator(),
+   userBloc: locator(),
       ));
 
 /*

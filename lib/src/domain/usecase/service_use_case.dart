@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:domo/src/domain/entities/service_entities.dart';
 
 import '../../core/errors/failures.dart';
 import '../repository/repository_domain.dart';
@@ -11,7 +12,7 @@ class ServiceUseCase {
   Future<Either<Failure, bool>> createService(
           {required Map<String, dynamic> data, required List<String> file}) =>
       serviceRepositoryDomanin.createService(data: data, file: file);
-  Future<Either<Failure, dynamic>> getServiceById({required String id}) =>
+  Future<Either<Failure, List<ServiceEntities>>> getServiceById({required String id}) =>
       serviceRepositoryDomanin.getServiceById(id: id);
   Future<Either<Failure, List<dynamic>>> getAllService() =>
       serviceRepositoryDomanin.getAllService();

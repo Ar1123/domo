@@ -1,8 +1,14 @@
-import 'package:domo/src/config/style/style.dart';
+import 'package:domo/src/domain/entities/service_entities.dart';
+import 'package:domo/src/domain/entities/user_entities.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../config/style/style.dart';
+import '../../../../../injector.dart';
+import '../../../../blocs/blocs.dart';
+
 class ProgressService extends StatelessWidget {
-  const ProgressService({Key? key}) : super(key: key);
+  ProgressService({Key? key}) : super(key: key);
+  final serviceBloc = locator<ServiceBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -13,34 +19,66 @@ class ProgressService extends StatelessWidget {
           SizedBox(
             height: size.height * .04,
           ),
-          SizedBox(
-            height: size.height*.65,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 9,
-              itemBuilder: (_, index) => _card(
-                size: size,
-              ),
-            ),
-          )
+          FutureBuilder<List<ServiceEntities>>(
+              future: serviceBloc.getServicesByUser(),
+              builder:
+                  (context, AsyncSnapshot<List<ServiceEntities>> snapshot) {
+                if (snapshot.hasData) {
+                  List<ServiceEntities> list = snapshot.data ?? [];
+                  if (list.isNotEmpty) {
+                    return SizedBox(
+                      height: size.height * .65,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: list.length,
+                        itemBuilder: (_, index) => _card(
+                          size: size,
+                          serviceEntities: list[index]
+                        ),
+                      ),
+                    );
+                  } else {
+                    return SizedBox(
+                      height: size.height,
+                      child: Container(
+                        margin: EdgeInsets.only(top: size.height * .3),
+                        child: Text(
+                          'Sin actividad',
+                          style: textStyle(
+                              color: colorText, size: size.height * .02),
+                        ),
+                      ),
+                    );
+                  }
+                } else {
+                  return SizedBox(
+                    height: size.height,
+                    child: Container(
+                      margin: EdgeInsets.only(top: size.height * .3),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                  );
+                }
+              }),
         ],
       ),
     );
   }
 
-  Widget _card({required Size size}) => Container(
+  Widget _card({required Size size, required ServiceEntities serviceEntities}) => Container(
         height: size.height * .16,
         width: size.width * .9,
-        margin: EdgeInsets.symmetric(vertical: size.height * .01, horizontal: size.width*.04),
+        margin: EdgeInsets.symmetric(
+            vertical: size.height * .01, horizontal: size.width * .04),
         child: Column(
           children: [
             SizedBox(
               height: size.height * .04,
             ),
             _itemCard(
-                text1: 'Ciudad:', text2: 'Montería (Córdoba)', size: size),
-            _itemCard(text1: 'Fecha:', text2: '12/Feb/2022', size: size),
-            _itemCard(text1: 'Hora:', text2: '8: 45 AM', size: size),
+                text1: 'Ciudad:', text2: '${serviceEntities.city} (${serviceEntities.dep})', size: size),
+            _itemCard(text1: 'Fecha:', text2: '${serviceEntities.date}', size: size),
+            _itemCard(text1: 'Hora:', text2: '${serviceEntities.hour}', size: size),
           ],
         ),
         decoration: BoxDecoration(

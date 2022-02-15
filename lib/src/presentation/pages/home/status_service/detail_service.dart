@@ -84,8 +84,8 @@ class DetailService extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _card(img: "", size: size),
-                  _card(img: "", size: size),
+                  _card(img: serviceEntities!.imagesevice![0], size: size),
+                  _card(img: serviceEntities!.imagesevice![1], size: size),
                 ],
               )
             ],
@@ -143,16 +143,33 @@ class DetailService extends StatelessWidget {
         // child: ,
         height: size.height * .25,
         width: size.width * .4,
-        child: CachedNetworkImage(
-          imageUrl: img,
-          placeholder: (context, url) => CircularProgressIndicator(),
-          errorWidget: (context, url, error) => Image.asset(kNotImage),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: CachedNetworkImage(
+            imageUrl: img,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => Container(
+                height: size.height * .02,
+                width: size.width * .04,
+                decoration: BoxDecoration(
+                  color: blueColorTwo,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colorText,
+                      offset: Offset(0, 3),
+                      blurRadius: 3,
+                    ),
+                  ],
+                ),
+                child: Center(child: CircularProgressIndicator())),
+            errorWidget: (context, url, error) => Image.asset(kNotImage),
+          ),
         ),
         margin: EdgeInsets.only(top: size.height * .04),
         decoration: BoxDecoration(
           color: blueColorTwo,
-          borderRadius: BorderRadius.circular(10),
-          
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
               color: colorText,

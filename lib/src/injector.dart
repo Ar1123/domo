@@ -1,4 +1,5 @@
 import 'package:domo/src/data/repository/remote_city_repo_impl.dart';
+import 'package:domo/src/domain/usecase/category_service_use_case.dart';
 import 'package:domo/src/domain/usecase/service_use_case.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -43,6 +44,7 @@ Future<void> initLocator() async {
    sharedPrefencesUseCase: locator(),
    serviceUseCase: locator(),
    userBloc: locator(),
+   categoryServiceUseCase: locator(),
       ));
 
 /*
@@ -69,6 +71,8 @@ Future<void> initLocator() async {
       () => GetImageFromLocalUseCase(   locator()));
   locator.registerLazySingleton(
       () => ServiceUseCase(  serviceRepositoryDomanin:  locator()));
+  locator.registerLazySingleton(
+      () => CategoryServiceUseCase(  categoryServiceRepositoryDomain:  locator()));
 
 /*
 .......##.......##.########..########.########...#######...######..####.########..#######..########..##....##
@@ -94,6 +98,8 @@ Future<void> initLocator() async {
       () => GetimageFromCameraRepoImpl( locator()));
   locator.registerLazySingleton<ServiceRepositoryDomanin>(
       () => ServiceRepositoryImpl( serviceRemoteDataSource:  locator()));
+  locator.registerLazySingleton<CategoryServiceRepositoryDomain>(
+      () => CategoryServiceRepositoryImpl( categoryServiceRemoteDataSource:  locator()));
 
 /*
 .......##.......##.########.....###....########....###.....######...#######..##.....##.########...######..########......
@@ -119,6 +125,8 @@ Future<void> initLocator() async {
       () => GetImageFromCameraLocalimpl());
   locator.registerLazySingleton<ServiceRemoteDataSource>(
       () => ServiceRemoteDataSourceImpl());
+  locator.registerLazySingleton<CategoryServiceRemoteDataSource>(
+      () => CategoryServiceRemoteDataSourceImpl());
 
   /*
   .......##.......##.########.##.....##.########.########.########..##....##..#######.

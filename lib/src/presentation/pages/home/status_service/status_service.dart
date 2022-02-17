@@ -74,7 +74,7 @@ class _TabStatusServiceState extends State<TabStatusService>
                     ),
                   ),
                   _item(
-                    'Finalizdas',
+                    'Finalizadas',
                     size,
                     const Icon(
                       Icons.check,

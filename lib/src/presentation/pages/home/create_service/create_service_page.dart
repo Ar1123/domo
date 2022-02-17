@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:domo/src/domain/entities/category_service_entities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -62,7 +63,7 @@ class _CreateServicePageState extends State<CreateServicePage> {
           body: Container(
             margin: EdgeInsets.symmetric(
               horizontal: (loading) ? 0 : size.width * .04,
-              vertical: (loading)?0:size.height * .05,
+              vertical: (loading) ? 0 : size.height * .05,
             ),
             child: SingleChildScrollView(
               child: Stack(
@@ -302,7 +303,7 @@ class _CreateServicePageState extends State<CreateServicePage> {
                             );
                           });
                           setState(() {});
-                        
+
                           final result = await serviceBloc.createService(data: {
                             "category": service,
                             "city": city,
@@ -353,28 +354,46 @@ class _CreateServicePageState extends State<CreateServicePage> {
         context: context,
         child: SizedBox(
           height: size.height * .35,
-          child: ListView.builder(
-            itemCount: _servicios.length,
-            itemBuilder: (_, index) => ListTile(
-              onTap: () {
-                _currentIndex = index;
-                service = _servicios[index];
-                setState(() {
-                  Navigator.pop(context);
-                });
-              },
-              leading: (_currentIndex != null && _currentIndex == index)
-                  ? Icon(
-                      Icons.radio_button_checked_outlined,
-                      color: colorText,
-                    )
-                  : Icon(
-                      Icons.radio_button_off_outlined,
-                      color: colorText,
-                    ),
-              title: Text(_servicios[index]),
-            ),
-          ),
+          child: FutureBuilder<List<CategoryServiceEntities>>(
+              future: serviceBloc.getCategoryService(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<CategoryServiceEntities> list = snapshot.data ?? [];
+                  if (list.isNotEmpty) {
+                    return ListView.builder(
+                      itemCount: list.length,
+                      itemBuilder: (_, index) => ListTile(
+                        onTap: () {
+                          _currentIndex = index;
+                          service = list[index].service!;
+                          setState(() {
+                            Navigator.pop(context);
+                          });
+                        },
+                        leading:
+                            (_currentIndex != null && _currentIndex == index)
+                                ? Icon(
+                                    Icons.radio_button_checked_outlined,
+                                    color: colorText,
+                                  )
+                                : Icon(
+                                    Icons.radio_button_off_outlined,
+                                    color: colorText,
+                                  ),
+                        title: Text(list[index].service!),
+                      ),
+                    );
+                  } else {
+                    return Center(
+                      child: Text('No hay datos'),
+                    );
+                  }
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }),
         ),
         header: SizedBox(
           height: size.height * .03,

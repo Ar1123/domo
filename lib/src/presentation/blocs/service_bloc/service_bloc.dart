@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:domo/src/domain/entities/category_service_entities.dart';
 import 'package:domo/src/domain/entities/service_entities.dart';
+import 'package:domo/src/domain/usecase/category_service_use_case.dart';
 import 'package:domo/src/domain/usecase/service_use_case.dart';
 import 'package:domo/src/presentation/blocs/blocs.dart';
 import 'package:equatable/equatable.dart';
@@ -19,6 +21,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
   final SharedPrefencesUseCase sharedPrefencesUseCase;
   final ServiceUseCase serviceUseCase;
   final UserBloc userBloc;
+  final CategoryServiceUseCase categoryServiceUseCase;
 
   ServiceBloc({
     required this.localCityUseCase,
@@ -26,6 +29,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     required this.sharedPrefencesUseCase,
     required this.serviceUseCase,
     required this.userBloc,
+    required this.categoryServiceUseCase,
   }) : super(ServiceInitial()) {
     on<ServiceEvent>((event, emit) {});
     on<OnEventGetImageFromLocal>(_onGetImageFromLocal);
@@ -155,6 +159,16 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
       list = r;
     });
 
+    return list;
+  }
+
+    Future<List<CategoryServiceEntities>> getCategoryService() async {
+    List<CategoryServiceEntities> list = [];
+
+    final result = await categoryServiceUseCase.getCategoryservice();
+    result.fold((l) {}, (r) {
+      list = r;
+    });
     return list;
   }
 }

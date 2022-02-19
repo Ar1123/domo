@@ -193,6 +193,16 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     });
     return offer;
   }
+  Future<List<OfferEntities>> getOfferInProgress() async {
+    List<OfferEntities> offer = [];
+    final id = await userBloc.getIdUser();
+    final result = await offerUsecase.getOfferInProgress(id: id);
+
+    result.fold((l) {}, (r) {
+      offer = r;
+    });
+    return offer;
+  }
 
   Future<int> getOfferAmmount({required String idService}) async {
     int ammount = 0;
@@ -226,7 +236,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     }, id: idService);
 
     await serviceUseCase.updateData(data: {
-      "status":false,
+      "status": false,
     }, id: offer[0].idService!);
     offer.forEach((element) {
       if ((idService != element.idOffer)) {

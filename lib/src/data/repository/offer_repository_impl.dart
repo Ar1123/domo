@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:domo/src/data/model/offer_model.dart';
+import 'package:domo/src/domain/entities/offer_entities.dart';
 
 import '../../core/errors/failures.dart';
 import '../../core/utils/future_response/future_response.dart';
@@ -38,6 +39,14 @@ class OfferRepositoryImpl implements OfferRepositoryDomain{
     return response(()async{
 
       return await offerRemoteDataSource.updateOffer(data: data, id: id);
+    });
+  }
+
+  @override
+  Future<Either<Failure, List<OfferEntities>>> getOfferInProgress({required String id}) async{
+
+    return response(()async{
+      return await offerRemoteDataSource.getOfferInProgress(id: id);
     });
   }
 }

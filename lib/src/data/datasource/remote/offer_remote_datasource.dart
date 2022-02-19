@@ -10,7 +10,9 @@ abstract class OfferRemoteDataSource {
   Future<List<OfferModel>> offerById(
       {required String idService, required String id});
 
-      Future<bool> updateOffer({required Map<String, dynamic> data, required String id});
+  Future<bool> updateOffer(
+      {required Map<String, dynamic> data, required String id});
+  Future<List<OfferModel>> getOfferInProgress({required String id});
 }
 
 class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
@@ -77,7 +79,7 @@ class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
         .where("idService", isEqualTo: idService)
         .where("status", isEqualTo: true)
         .get();
-        
+
     list = result.docs
         .map((e) => OfferModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();
@@ -86,14 +88,31 @@ class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
   }
 
   @override
-  Future<bool> updateOffer({required Map<String, dynamic> data, required String id})async {
+  Future<bool> updateOffer(
+      {required Map<String, dynamic> data, required String id}) async {
+    try {
+      await _reference.doc(id).update(data);
+      return true;
+    } on FirebaseException catch (e) {
+      throw ServerExceptions();
+    }
+  }
 
-      try {
-        await _reference.doc(id).update(data);
-        return true;
-      } on FirebaseException catch (e) {
-      
-        throw ServerExceptions();
-      }
+  @override
+  Future<List<OfferModel>> getOfferInProgress({required String id}) async {
+    try {
+      List<OfferModel> list = [];
+
+    final result =   await _reference
+          .where("client", isEqualTo: id)
+          .where("acept", isEqualTo: true)
+          .where("status", isEqualTo: false)
+          .get();
+
+          list = result.docs.map((e) => OfferModel.fromJson(e.data() as Map<String, dynamic>)).toList();
+      return list;
+    } on FirebaseException catch (e) {
+      throw ServerExceptions();
+    }
   }
 }

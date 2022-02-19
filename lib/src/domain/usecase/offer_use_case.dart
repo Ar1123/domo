@@ -19,4 +19,7 @@ class OfferUsecase {
   Future<Either<Failure, bool>> udpateOffer(
           {required Map<String, dynamic> data, required String id}) =>
       offerRepositoryDomain.updateOffer(id: id, data: data);
+  Future<Either<Failure, List<OfferEntities>>> getOfferInProgress(
+          {required String id}) =>
+      offerRepositoryDomain.getOfferInProgress(id: id);
 }

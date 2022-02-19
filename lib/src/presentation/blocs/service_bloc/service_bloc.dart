@@ -23,7 +23,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
   final ServiceUseCase serviceUseCase;
   final UserBloc userBloc;
   final CategoryServiceUseCase categoryServiceUseCase;
-final OfferUsecase offerUsecase;
+  final OfferUsecase offerUsecase;
   ServiceBloc({
     required this.localCityUseCase,
     required this.getImageFromLocalUseCase,
@@ -74,7 +74,6 @@ final OfferUsecase offerUsecase;
           if (imagesCache.length < 1) {
             temp.add(kAddImageService);
           }
-          log("${temp.length}");
         }
 
         emitter(ShowImageFromLocal(
@@ -164,7 +163,7 @@ final OfferUsecase offerUsecase;
     return list;
   }
 
-    Future<List<CategoryServiceEntities>> getCategoryService() async {
+  Future<List<CategoryServiceEntities>> getCategoryService() async {
     List<CategoryServiceEntities> list = [];
 
     final result = await categoryServiceUseCase.getCategoryservice();
@@ -173,7 +172,6 @@ final OfferUsecase offerUsecase;
     });
     return list;
   }
-
 
   /*
   .......##.......##..#######..########.########.########.########...######.
@@ -185,34 +183,61 @@ final OfferUsecase offerUsecase;
   .##.......##........#######..##.......##.......########.##.....##..######.
   */
 
-Future<List<OfferEntities>> getOffer()async{
-  List<OfferEntities> offer = [];
-  final id = await userBloc.getIdUser();
+  Future<List<OfferEntities>> getOffer() async {
+    List<OfferEntities> offer = [];
+    final id = await userBloc.getIdUser();
     final result = await offerUsecase.getOffer(id: id);
 
     result.fold((l) {}, (r) {
       offer = r;
     });
-  return offer;
-}
+    return offer;
+  }
 
-Future<int> getOfferAmmount({required String idService}) async{
-  int ammount = 0;
-  final id = await userBloc.getIdUser();
+  Future<int> getOfferAmmount({required String idService}) async {
+    int ammount = 0;
+    final id = await userBloc.getIdUser();
 
-    final result = await offerUsecase.offerAmmount(idService: idService, id: id);
+    final result =
+        await offerUsecase.offerAmmount(idService: idService, id: id);
     result.fold((l) {}, (r) {
       ammount = r;
     });
-  return ammount;
-}
-Future<List<OfferEntities>> getOfferById({required String idService})async{
-List<OfferEntities> list = [];
-  final id = await userBloc.getIdUser();
-  final result = await offerUsecase.offerById(idService: idService, id: id);
-  result.fold((l){}, (r) {
-    list = r;
-  });
-  return list;
-}
+    return ammount;
+  }
+
+  Future<List<OfferEntities>> getOfferById({required String idService}) async {
+    List<OfferEntities> list = [];
+    final id = await userBloc.getIdUser();
+    final result = await offerUsecase.offerById(idService: idService, id: id);
+    result.fold((l) {}, (r) {
+      list = r;
+    });
+    return list;
+  }
+
+  Future<bool> offerAceppt(
+      {required String owner,
+      required String idService,
+      required List<OfferEntities> offer}) async {
+    await offerUsecase.udpateOffer(data: {
+      "acept": true,
+      "status": false,
+    }, id: idService);
+
+    await serviceUseCase.updateData(data: {
+      "status":false,
+    }, id: offer[0].idService!);
+    offer.forEach((element) {
+      if ((idService != element.idOffer)) {
+        offerUsecase.udpateOffer(data: {
+          "acept": false,
+          "status": false,
+        }, id: element.idOffer!).then((value) {});
+        log("${element.idOffer} - ${element.idService}", name: "2");
+      }
+    });
+
+    return true;
+  }
 }

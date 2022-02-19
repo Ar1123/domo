@@ -13,6 +13,8 @@ abstract class ServiceRemoteDataSource {
       {required Map<String, dynamic> data, required List<String> file});
   Future<List<ServiceModel>> getServiceById({required String id});
   Future<List<dynamic>> getAllService();
+  Future<bool> updDateData(
+      {required Map<String, dynamic> data, required String id});
 }
 
 class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
@@ -57,12 +59,29 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   Future<List<ServiceModel>> getServiceById({required String id}) async {
     try {
       List<ServiceModel> list = [];
-      final result = await _reference.where("uid", isEqualTo: id).get();
+      final result = await _reference
+          .where("uid", isEqualTo: id)
+          .where(
+            "status",
+            isEqualTo: true,
+          )
+          .get();
 
       list = result.docs
           .map((e) => ServiceModel.fromJson(e.data() as Map<String, dynamic>))
           .toList();
       return list;
+    } on FirebaseException catch (e) {
+      throw ServerExceptions();
+    }
+  }
+
+  @override
+  Future<bool> updDateData(
+      {required Map<String, dynamic> data, required String id}) async {
+    try {
+      await _reference.doc(id).update(data);
+      return true;
     } on FirebaseException catch (e) {
       throw ServerExceptions();
     }

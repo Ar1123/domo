@@ -7,4 +7,5 @@ abstract class ServiceRepositoryDomanin{
   Future<Either<Failure, bool>> createService({required Map<String, dynamic> data, required List<String> file});
   Future<Either<Failure, List<ServiceEntities>>> getServiceById({required String id});
   Future<Either<Failure, List<dynamic>>> getAllService();
+  Future<Either<Failure, bool>> updateData({required Map<String, dynamic> data, required String id });
 }

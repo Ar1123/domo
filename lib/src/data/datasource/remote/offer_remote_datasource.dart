@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,7 +7,10 @@ import 'package:domo/src/data/model/offer_model.dart';
 abstract class OfferRemoteDataSource {
   Future<List<OfferModel>> getOfferById({required String id});
   Future<int> offerAmmount({required String idService, required String id});
-  Future<List<OfferModel>> offerById({required String idService, required String id});
+  Future<List<OfferModel>> offerById(
+      {required String idService, required String id});
+
+      Future<bool> updateOffer({required Map<String, dynamic> data, required String id});
 }
 
 class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
@@ -19,7 +21,10 @@ class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
     try {
       List<OfferModel> list = [];
       List<OfferModel> list2 = [];
-      final getOffer = await _reference.where("client", isEqualTo: id).get();
+      final getOffer = await _reference
+          .where("client", isEqualTo: id)
+          .where("status", isEqualTo: true)
+          .get();
       list = getOffer.docs
           .map((e) => OfferModel.fromJson(e.data() as Map<String, dynamic>))
           .toList();
@@ -33,6 +38,7 @@ class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
         final result = await _reference
             .where("client", isEqualTo: id)
             .where("idService", isEqualTo: listTemp[i])
+            .where("status", isEqualTo: true)
             .get();
 
         offerModel =
@@ -54,6 +60,7 @@ class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
       final result = await _reference
           .where("client", isEqualTo: id)
           .where("idService", isEqualTo: idService)
+          .where("status", isEqualTo: true)
           .get();
       return result.docs.length;
     } on FirebaseException catch (e) {
@@ -68,11 +75,25 @@ class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
     final result = await _reference
         .where("client", isEqualTo: id)
         .where("idService", isEqualTo: idService)
+        .where("status", isEqualTo: true)
         .get();
+        
     list = result.docs
         .map((e) => OfferModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();
 
     return list;
+  }
+
+  @override
+  Future<bool> updateOffer({required Map<String, dynamic> data, required String id})async {
+
+      try {
+        await _reference.doc(id).update(data);
+        return true;
+      } on FirebaseException catch (e) {
+      
+        throw ServerExceptions();
+      }
   }
 }

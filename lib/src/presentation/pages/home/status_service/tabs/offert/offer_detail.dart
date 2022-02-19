@@ -123,7 +123,7 @@ class OffertDetail extends StatelessWidget {
                               shrinkWrap: true,
                               itemCount: list.length,
                               itemBuilder: (_, index) => _card(
-                                  size: size, offerEntities: list[index])),
+                                  size: size, offerEntities: list[index], listOfer: list)),
                         );
                       } else {
                         return Center(
@@ -143,7 +143,7 @@ class OffertDetail extends StatelessWidget {
     );
   }
 
-  Widget _card({required Size size, required OfferEntities offerEntities}) =>
+  Widget _card({required Size size, required OfferEntities offerEntities, required List<OfferEntities> listOfer}) =>
       Container(
         height: size.height * .15,
         width: size.width * .9,
@@ -183,8 +183,13 @@ class OffertDetail extends StatelessWidget {
                         SizedBox(
                           width: size.width * .07,
                         ),
-                        Icon(
-                          Icons.check,
+                        GestureDetector(
+                          onTap: (){
+                            serviceBloc.offerAceppt(owner: offerEntities.owner!, idService: offerEntities.idOffer!, offer: listOfer);
+                          },
+                          child: Icon(
+                            Icons.check,
+                          ),
                         ),
                         SizedBox(
                           width: size.width * .07,

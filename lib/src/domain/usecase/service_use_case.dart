@@ -16,4 +16,6 @@ class ServiceUseCase {
       serviceRepositoryDomanin.getServiceById(id: id);
   Future<Either<Failure, List<dynamic>>> getAllService() =>
       serviceRepositoryDomanin.getAllService();
+
+      Future<Either<Failure, bool>> updateData({required Map<String, dynamic> data, required String id })=>serviceRepositoryDomanin.updateData(data:data, id:id);
 }

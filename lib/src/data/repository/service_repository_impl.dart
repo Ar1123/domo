@@ -37,4 +37,12 @@ class ServiceRepositoryImpl implements ServiceRepositoryDomanin {
       return await serviceRemoteDataSource.getServiceById(id: id);
     });
   }
+
+  @override
+  Future<Either<Failure, bool>> updateData({required Map<String, dynamic> data, required String id})async {
+  
+    return response(()async{
+      return await serviceRemoteDataSource.updDateData(data: data, id: id);
+    });
+  }
 }

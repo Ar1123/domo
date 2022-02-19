@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:domo/src/config/style/style.dart';
 import 'package:domo/src/domain/entities/offer_entities.dart';

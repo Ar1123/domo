@@ -55,7 +55,6 @@ class OffertDetail extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          color: Colors.blue,
                           width: size.width * .4,
                           height: size.height * .18,
                           child: Column(
@@ -119,12 +118,12 @@ class OffertDetail extends StatelessWidget {
                       List<OfferEntities> list = snapshot.data ?? [];
                       if (list.isNotEmpty) {
                         return SizedBox(
-                          height: size.height*.6,
+                          height: size.height * .6,
                           child: ListView.builder(
-                            shrinkWrap: true,
+                              shrinkWrap: true,
                               itemCount: list.length,
-                              itemBuilder: (_, index) =>
-                                  _card(size: size, offerEntities: list[index])),
+                              itemBuilder: (_, index) => _card(
+                                  size: size, offerEntities: list[index])),
                         );
                       } else {
                         return Center(
@@ -146,11 +145,57 @@ class OffertDetail extends StatelessWidget {
 
   Widget _card({required Size size, required OfferEntities offerEntities}) =>
       Container(
-        height: size.height * .2,
+        height: size.height * .15,
         width: size.width * .9,
         margin: EdgeInsets.all(10),
         child: Row(
-          children: [],
+          children: [
+            Container(
+              width: size.width * .3,
+              child: CircleAvatar(
+                radius: size.height * .06,
+                // backgroundImage: Image.network(o),
+              ),
+            ),
+            Expanded(
+                child: Container(
+              child: Column(
+                children: [
+                  Container(
+                    height: size.height * .1,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Usuario ha realizado una oferta de ${offerEntities.price}',
+                      style: textStyle(
+                        color: colorText,
+                        size: size.height * .024,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(
+                          Icons.delete_outline_outlined,
+                        ),
+                        SizedBox(
+                          width: size.width * .07,
+                        ),
+                        Icon(
+                          Icons.check,
+                        ),
+                        SizedBox(
+                          width: size.width * .07,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ))
+          ],
         ),
         decoration: BoxDecoration(
           color: blueColorTwo,

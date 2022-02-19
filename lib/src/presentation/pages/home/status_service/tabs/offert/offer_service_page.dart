@@ -74,7 +74,7 @@ class OfferServiceOage extends StatelessWidget {
                       size: size),
                   _itemCard(
                       text1: 'Hora:',
-                      text2: '${offerEntities.idService}',
+                      text2: '${offerEntities.service!.hour}',
                       size: size),
                 ],
               ),

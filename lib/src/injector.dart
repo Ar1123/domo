@@ -1,3 +1,4 @@
+import 'package:domo/src/data/repository/offer_repository_impl.dart';
 import 'package:domo/src/data/repository/remote_city_repo_impl.dart';
 import 'package:domo/src/domain/usecase/category_service_use_case.dart';
 import 'package:domo/src/domain/usecase/service_use_case.dart';
@@ -45,6 +46,7 @@ Future<void> initLocator() async {
    serviceUseCase: locator(),
    userBloc: locator(),
    categoryServiceUseCase: locator(),
+   offerUsecase: locator(),
       ));
 
 /*
@@ -73,6 +75,8 @@ Future<void> initLocator() async {
       () => ServiceUseCase(  serviceRepositoryDomanin:  locator()));
   locator.registerLazySingleton(
       () => CategoryServiceUseCase(  categoryServiceRepositoryDomain:  locator()));
+  locator.registerLazySingleton(
+      () => OfferUsecase(  offerRepositoryDomain:  locator()));
 
 /*
 .......##.......##.########..########.########...#######...######..####.########..#######..########..##....##
@@ -100,6 +104,8 @@ Future<void> initLocator() async {
       () => ServiceRepositoryImpl( serviceRemoteDataSource:  locator()));
   locator.registerLazySingleton<CategoryServiceRepositoryDomain>(
       () => CategoryServiceRepositoryImpl( categoryServiceRemoteDataSource:  locator()));
+  locator.registerLazySingleton<OfferRepositoryDomain>(
+      () => OfferRepositoryImpl( offerRemoteDataSource:  locator()));
 
 /*
 .......##.......##.########.....###....########....###.....######...#######..##.....##.########...######..########......
@@ -127,6 +133,8 @@ Future<void> initLocator() async {
       () => ServiceRemoteDataSourceImpl());
   locator.registerLazySingleton<CategoryServiceRemoteDataSource>(
       () => CategoryServiceRemoteDataSourceImpl());
+  locator.registerLazySingleton<OfferRemoteDataSource>(
+      () => OfferRemoteDataSourceImpl());
 
   /*
   .......##.......##.########.##.....##.########.########.########..##....##..#######.

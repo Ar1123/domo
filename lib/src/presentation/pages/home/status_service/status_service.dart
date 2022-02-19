@@ -1,4 +1,5 @@
 import 'package:domo/src/config/style/style.dart';
+import 'package:domo/src/presentation/pages/home/status_service/tabs/offer_service_page.dart';
 import 'package:flutter/material.dart';
 
 import 'tabs/progress_service.dart';
@@ -88,7 +89,7 @@ class _TabStatusServiceState extends State<TabStatusService>
             controller: _tabController,
             children: [
               ProgressService(),
-              Text('2'),
+              OfferServiceOage(),
               Text('3'),
               Text('4'),
             ],

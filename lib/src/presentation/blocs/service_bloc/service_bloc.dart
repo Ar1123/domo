@@ -1,16 +1,17 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:domo/src/domain/entities/category_service_entities.dart';
-import 'package:domo/src/domain/entities/service_entities.dart';
-import 'package:domo/src/domain/usecase/category_service_use_case.dart';
-import 'package:domo/src/domain/usecase/service_use_case.dart';
-import 'package:domo/src/presentation/blocs/blocs.dart';
+import 'package:domo/src/domain/entities/offer_entities.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../core/constant/asset_images.dart';
+import '../../../domain/entities/category_service_entities.dart';
 import '../../../domain/entities/city_entities.dart';
+import '../../../domain/entities/service_entities.dart';
+import '../../../domain/usecase/category_service_use_case.dart';
+import '../../../domain/usecase/service_use_case.dart';
 import '../../../domain/usecase/use_case_domain.dart';
+import '../blocs.dart';
 
 part 'service_event.dart';
 part 'service_state.dart';
@@ -22,12 +23,13 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
   final ServiceUseCase serviceUseCase;
   final UserBloc userBloc;
   final CategoryServiceUseCase categoryServiceUseCase;
-
+final OfferUsecase offerUsecase;
   ServiceBloc({
     required this.localCityUseCase,
     required this.getImageFromLocalUseCase,
     required this.sharedPrefencesUseCase,
     required this.serviceUseCase,
+    required this.offerUsecase,
     required this.userBloc,
     required this.categoryServiceUseCase,
   }) : super(ServiceInitial()) {
@@ -171,4 +173,38 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     });
     return list;
   }
+
+
+  /*
+  .......##.......##..#######..########.########.########.########...######.
+  ......##.......##..##.....##.##.......##.......##.......##.....##.##....##
+  .....##.......##...##.....##.##.......##.......##.......##.....##.##......
+  ....##.......##....##.....##.######...######...######...########...######.
+  ...##.......##.....##.....##.##.......##.......##.......##...##.........##
+  ..##.......##......##.....##.##.......##.......##.......##....##..##....##
+  .##.......##........#######..##.......##.......########.##.....##..######.
+  */
+
+Future<List<OfferEntities>> getOffer()async{
+  List<OfferEntities> offer = [];
+  final id = await userBloc.getIdUser();
+    final result = await offerUsecase.getOffer(id: id);
+
+    result.fold((l) {}, (r) {
+      offer = r;
+    });
+  return offer;
+}
+
+Future<int> getOfferAmmount({required String idService}) async{
+  int ammount = 0;
+  final id = await userBloc.getIdUser();
+
+    final result = await offerUsecase.offerAmmount(idService: idService, id: id);
+    result.fold((l) {}, (r) {
+      ammount = r;
+    });
+  return ammount;
+}
+
 }

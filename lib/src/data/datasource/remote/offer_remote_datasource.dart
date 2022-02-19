@@ -8,6 +8,7 @@ import 'package:domo/src/data/model/offer_model.dart';
 abstract class OfferRemoteDataSource {
   Future<List<OfferModel>> getOfferById({required String id});
   Future<int> offerAmmount({required String idService, required String id});
+  Future<List<OfferModel>> offerById({required String idService, required String id});
 }
 
 class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
@@ -58,5 +59,20 @@ class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
     } on FirebaseException catch (e) {
       throw ServerExceptions();
     }
+  }
+
+  @override
+  Future<List<OfferModel>> offerById(
+      {required String idService, required String id}) async {
+    List<OfferModel> list = [];
+    final result = await _reference
+        .where("client", isEqualTo: id)
+        .where("idService", isEqualTo: idService)
+        .get();
+    list = result.docs
+        .map((e) => OfferModel.fromJson(e.data() as Map<String, dynamic>))
+        .toList();
+
+    return list;
   }
 }

@@ -1,5 +1,5 @@
 import 'package:domo/src/config/style/style.dart';
-import 'package:domo/src/presentation/pages/home/status_service/tabs/offer_service_page.dart';
+import 'package:domo/src/presentation/pages/home/status_service/tabs/offert/offer_service_page.dart';
 import 'package:flutter/material.dart';
 
 import 'tabs/progress_service.dart';

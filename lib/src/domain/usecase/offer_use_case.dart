@@ -11,4 +11,6 @@ class OfferUsecase{
 
   Future<Either<Failure, List<OfferEntities>>> getOffer({required String id}) => offerRepositoryDomain.getOfferByIdUser(id: id);
   Future<Either<Failure, int>> offerAmmount({required String idService, required String id}) => offerRepositoryDomain.offerAmmount(idService: idService, id:id);
+  Future<Either<Failure, List<OfferEntities>>> offerById({required String idService, required String id})=>offerRepositoryDomain.offerById(idService: idService, id: id);
+
 }

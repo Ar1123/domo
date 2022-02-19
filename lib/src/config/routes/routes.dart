@@ -7,4 +7,5 @@ getRoutes() => {
       'homePage': (_) => HomePage(),
       'createService': (_) => CreateServicePage(),
       'detailService': (_) => DetailService(),
+      'offertDetail': (_) => OffertDetail(),
     };

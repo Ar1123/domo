@@ -49,7 +49,7 @@ class OfferServiceOage extends StatelessWidget {
           required BuildContext context}) =>
       GestureDetector(
         onTap: () {
-          // Navigator.pushNamed(context, "detailService", arguments: {"service":serviceEntities});
+          Navigator.pushNamed(context, "offertDetail", arguments: {"offert":offerEntities});
         },
         child: Stack(
           children: [

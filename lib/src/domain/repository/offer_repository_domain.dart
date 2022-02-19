@@ -6,4 +6,5 @@ abstract class OfferRepositoryDomain{
 
   Future<Either<Failure, List<OfferEntities>>> getOfferByIdUser({required String id});
   Future<Either<Failure, int>> offerAmmount({required String idService, required String id});
+  Future<Either<Failure, List<OfferEntities>>> offerById({required String idService, required String id});
 }

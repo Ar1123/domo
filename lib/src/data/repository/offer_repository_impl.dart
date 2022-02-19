@@ -25,4 +25,11 @@ class OfferRepositoryImpl implements OfferRepositoryDomain{
           return await offerRemoteDataSource.offerAmmount(idService: idService, id:id);
         });
   }
+
+  @override
+  Future<Either<Failure, List<OfferModel>>> offerById({required String idService, required String id}) async{
+    return response(()async{
+      return await offerRemoteDataSource.offerById(idService: idService, id: id);
+    });
+  }
 }

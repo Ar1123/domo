@@ -206,5 +206,13 @@ Future<int> getOfferAmmount({required String idService}) async{
     });
   return ammount;
 }
-
+Future<List<OfferEntities>> getOfferById({required String idService})async{
+List<OfferEntities> list = [];
+  final id = await userBloc.getIdUser();
+  final result = await offerUsecase.offerById(idService: idService, id: id);
+  result.fold((l){}, (r) {
+    list = r;
+  });
+  return list;
+}
 }

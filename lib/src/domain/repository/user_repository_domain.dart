@@ -8,4 +8,6 @@ abstract class UserRepositoryDomain{
   Future<Either<Failure, bool>> createUser({required Map<String, dynamic> data});
   Future<Either<Failure, bool>> updateUser({required Map<String, dynamic> data, required String id});
   Future<Either<Failure, UserEntities>>  getUser({required String id});
+  Future<Either<Failure, String>> getToken({required String id});
+
 } 

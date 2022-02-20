@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:domo/src/domain/usecase/use_case_domain.dart';
+import 'package:domo/src/injector.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -93,7 +94,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         userExits.fold((l) {}, (r2) {
           if (r2.uid!.isEmpty) {
             exits = true;
-          }else{
+          } else {
             exits = false;
           }
         });
@@ -110,13 +111,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           result2.fold((l) {
             emit(ErrorInAuthState(message: 'Error a crear cuenta'));
           }, (r) {
+            final d = locator<NotificationUseCase>();
+            d.init().then((value) {});
+
             emit(NextInAuthState());
             emit(CloseInAuthState());
           });
         } else {
           emit(IsLooginState());
           emit(CloseInAuthState());
-        }
+        }//3003255579
       }
     });
   }
@@ -155,8 +159,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> logAuth()async{
+  Future<void> logAuth() async {
     await authUseCaseDomnain.logOut();
-
   }
 }

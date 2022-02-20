@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,11 +10,15 @@ abstract class UserRemoteDataSource {
   Future<bool> createUser({required Map<String, dynamic> data});
   Future<bool> update({required Map<String, dynamic> data, required String id});
   Future<USerModel> get({required String id});
+  Future<String> getToken({required String id});
+
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final CollectionReference _reference =
       FirebaseFirestore.instance.collection('user');
+       final CollectionReference _ref =
+      FirebaseFirestore.instance.collection('token');
   @override
   Future<bool> createUser({required Map<String, dynamic> data}) async {
     try {
@@ -52,6 +57,22 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     } on FirebaseException catch (e) {
       log('Error al actualizar usuario $e');
 
+      throw ServerExceptions();
+    }
+  }
+
+  @override
+  Future<String> getToken({required String id}) async {
+      String token = "";
+    try {
+      log("$id   ${token}" , name: "aaaaaaaaaaaaa");
+      final getToken = await _ref.doc(id).get();
+      final encodeData = (jsonEncode(getToken.data()));
+      final decodeData = (jsonDecode(encodeData));
+      token = decodeData['token'];
+      return token;
+    } on FirebaseException catch (e) {
+      log("$e");
       throw ServerExceptions();
     }
   }

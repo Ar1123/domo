@@ -44,6 +44,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
     return id;
   }
+   Future<String> getToken({required String id}) async {
+    String token = "";
+    final result = await uSerCaseDomain.getToken(id:  id);
+    result.fold((l) {}, (r) {
+      token = r;
+    });
+
+    return token;
+  }
 
   Future<bool> udateUser({required Map<String, dynamic> data}) async {
     bool status = false;

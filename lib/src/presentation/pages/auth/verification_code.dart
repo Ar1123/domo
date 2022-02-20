@@ -1,3 +1,4 @@
+import 'package:domo/src/domain/usecase/use_case_domain.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -168,7 +169,8 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                                       phoneAuthCredential: phoneAuthCredential!,
                                       phone: widget.number,
                                     ));
-                                return;
+
+                                  return;
                               }
                               loading = false;
                               setState(() {});

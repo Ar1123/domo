@@ -1,3 +1,4 @@
+import 'package:domo/src/domain/usecase/notification_use_case.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +14,8 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   await initLocator();
+ final d = locator<NotificationUseCase>();
+ await d.init();
   runApp(MyApp());
 }
 

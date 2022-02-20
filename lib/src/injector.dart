@@ -1,13 +1,12 @@
-import 'package:domo/src/data/repository/offer_repository_impl.dart';
-import 'package:domo/src/data/repository/remote_city_repo_impl.dart';
-import 'package:domo/src/domain/usecase/category_service_use_case.dart';
-import 'package:domo/src/domain/usecase/service_use_case.dart';
+import 'package:domo/src/data/repository/server_repositpsy_impl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/datasource/data_source_data.dart';
+import 'data/repository/offer_repository_impl.dart';
+import 'data/repository/remote_city_repo_impl.dart';
 import 'data/repository/repository_data.dart';
 import 'domain/repository/repository_domain.dart';
 import 'domain/usecase/use_case_domain.dart';
@@ -47,6 +46,8 @@ Future<void> initLocator() async {
    userBloc: locator(),
    categoryServiceUseCase: locator(),
    offerUsecase: locator(),
+   notificationUseCase: locator(),
+   serverUseCase: locator(),
       ));
 
 /*
@@ -77,6 +78,10 @@ Future<void> initLocator() async {
       () => CategoryServiceUseCase(  categoryServiceRepositoryDomain:  locator()));
   locator.registerLazySingleton(
       () => OfferUsecase(  offerRepositoryDomain:  locator()));
+  locator.registerLazySingleton(
+      () => NotificationUseCase(   locator()));
+  locator.registerLazySingleton(
+      () => ServerUseCase(  serverRepositoryDomain:  locator()));
 
 /*
 .......##.......##.########..########.########...#######...######..####.########..#######..########..##....##
@@ -106,6 +111,10 @@ Future<void> initLocator() async {
       () => CategoryServiceRepositoryImpl( categoryServiceRemoteDataSource:  locator()));
   locator.registerLazySingleton<OfferRepositoryDomain>(
       () => OfferRepositoryImpl( offerRemoteDataSource:  locator()));
+  locator.registerLazySingleton<NotificationRepositoryDomain>(
+      () => NotificationRepositoryImpl(  locator()));
+  locator.registerLazySingleton<ServerRepositoryDomain>(
+      () => ServerRepositoryImpl(  locator()));
 
 /*
 .......##.......##.########.....###....########....###.....######...#######..##.....##.########...######..########......
@@ -135,6 +144,10 @@ Future<void> initLocator() async {
       () => CategoryServiceRemoteDataSourceImpl());
   locator.registerLazySingleton<OfferRemoteDataSource>(
       () => OfferRemoteDataSourceImpl());
+  locator.registerLazySingleton<NotificationRemoteDataSource>(
+      () => NotificationRemoteDataSourceImpl(locator()));
+  locator.registerLazySingleton<ServerRemoteDataSource>(
+      () => ServerRemoteDataSourceImpl( ));
 
   /*
   .......##.......##.########.##.....##.########.########.########..##....##..#######.

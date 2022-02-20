@@ -1,15 +1,13 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:domo/src/domain/entities/offer_entities.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../core/constant/asset_images.dart';
 import '../../../domain/entities/category_service_entities.dart';
 import '../../../domain/entities/city_entities.dart';
+import '../../../domain/entities/offer_entities.dart';
 import '../../../domain/entities/service_entities.dart';
-import '../../../domain/usecase/category_service_use_case.dart';
-import '../../../domain/usecase/service_use_case.dart';
 import '../../../domain/usecase/use_case_domain.dart';
 import '../blocs.dart';
 
@@ -24,6 +22,8 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
   final UserBloc userBloc;
   final CategoryServiceUseCase categoryServiceUseCase;
   final OfferUsecase offerUsecase;
+  final NotificationUseCase notificationUseCase;
+  final ServerUseCase serverUseCase;
   ServiceBloc({
     required this.localCityUseCase,
     required this.getImageFromLocalUseCase,
@@ -32,6 +32,8 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     required this.offerUsecase,
     required this.userBloc,
     required this.categoryServiceUseCase,
+    required this.serverUseCase,
+    required this.notificationUseCase,
   }) : super(ServiceInitial()) {
     on<ServiceEvent>((event, emit) {});
     on<OnEventGetImageFromLocal>(_onGetImageFromLocal);
@@ -149,6 +151,22 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     });
     await sharedPrefencesUseCase.clearPreferences("img");
 
+    serverUseCase
+        .getserver(category: data['category'], city: data['city'])
+        .then((value) {
+      value.fold((l) {}, (r) {
+        log("${r.length}");
+        r.forEach((element) async {
+          final token = await userBloc.getToken(id: element);
+          await notificationUseCase.sendNotification(
+              message:
+                  "Se ha creado una nueva solictud de servicio en una de tus areas, ven y observala",
+              token: token,
+              title: "Hola!!!");
+        });
+      });
+    });
+
     return status;
   }
 
@@ -193,6 +211,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     });
     return offer;
   }
+
   Future<List<OfferEntities>> getOfferInProgress() async {
     List<OfferEntities> offer = [];
     final id = await userBloc.getIdUser();

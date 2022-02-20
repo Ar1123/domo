@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:domo/src/config/style/style.dart';
@@ -8,10 +9,12 @@ import 'package:domo/src/domain/entities/service_entities.dart';
 import 'package:domo/src/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class DetailService extends StatelessWidget {
   DetailService({Key? key}) : super(key: key);
   ServiceEntities? serviceEntities;
   bool isShared = true;
+  String uidS = "";
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -24,6 +27,10 @@ class DetailService extends StatelessWidget {
       if (decodeData['isShared'] != null) {
         isShared = decodeData['isShared'];
       }
+      if (decodeData['uidS'] != null) {
+        uidS = decodeData['uidS'];
+        log(uidS, name: "a2");
+      }
     }
     return SafeArea(
       child: Scaffold(
@@ -35,20 +42,48 @@ class DetailService extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: colorText,
-          onPressed: () {},
-          child: Icon(
-            Icons.delete_outline,
-            color: whiteColor,
-          ),
-        ),
+        floatingActionButton: (!isShared)
+            ? SizedBox()
+            : FloatingActionButton(
+                backgroundColor: colorText,
+                onPressed: () {},
+                child: Icon(
+                  Icons.delete_outline,
+                  color: whiteColor,
+                ),
+              ),
         body: SingleChildScrollView(
           child: Column(
             children: [
+              (!isShared)
+                  ? Container(
+                      margin: EdgeInsets.only(
+                        top: size.height * .01,
+                      ),
+                      alignment: Alignment.center,
+                      child: Column(
+                        children: [
+                          Text(
+                            "Servidor: Juanito perez",
+                            style: textStyle(
+                              color: colorText,
+                              size: size.height * .03,
+                            ),
+                          ),
+                          Text(
+                            "\$120.000",
+                            style: textStyle(
+                              color: colorText,
+                              size: size.height * .03,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(),
               Container(
                 margin: EdgeInsets.only(
-                  top: size.height * .05,
+                  top: (!isShared) ? size.height * .02 : size.height * .05,
                 ),
                 alignment: Alignment.center,
                 child: Text(
@@ -93,13 +128,15 @@ class DetailService extends StatelessWidget {
                   ),
                 ),
               ),
-
-              
               Row(
-                mainAxisAlignment:(serviceEntities!.imagesevice!.length>1)? MainAxisAlignment.spaceAround:MainAxisAlignment.center,
+                mainAxisAlignment: (serviceEntities!.imagesevice!.length > 1)
+                    ? MainAxisAlignment.spaceAround
+                    : MainAxisAlignment.center,
                 children: [
                   _card(img: serviceEntities!.imagesevice![0], size: size),
-                 (serviceEntities!.imagesevice!.length>1)? _card(img: serviceEntities!.imagesevice![1], size: size):SizedBox(),
+                  (serviceEntities!.imagesevice!.length > 1)
+                      ? _card(img: serviceEntities!.imagesevice![1], size: size)
+                      : SizedBox(),
                 ],
               )
             ],

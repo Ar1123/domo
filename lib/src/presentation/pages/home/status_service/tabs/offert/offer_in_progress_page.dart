@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import '../../../../../../injector.dart';
 import '../../../../../blocs/blocs.dart';
 
-
 class OffertInProgressPage extends StatelessWidget {
-   OffertInProgressPage({ Key? key }) : super(key: key);
+  OffertInProgressPage({Key? key}) : super(key: key);
   final serviceBloc = locator<ServiceBloc>();
 
   @override
   Widget build(BuildContext context) {
-        final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
-  return Container(
+    return Container(
       child: FutureBuilder<List<OfferEntities>>(
         future: serviceBloc.getOfferInProgress(),
         builder: (_, snapshot) {
@@ -42,14 +41,21 @@ class OffertInProgressPage extends StatelessWidget {
     );
   }
 
-  
   Widget _card(
           {required Size size,
           required OfferEntities offerEntities,
           required BuildContext context}) =>
       GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, "offertDetail", arguments: {"offert":offerEntities});
+          Navigator.pushNamed(
+            context,
+            "detailService",
+            arguments: {
+              "service": offerEntities.service,
+              "isShared": false,
+              "uidS":offerEntities.owner
+            },
+          );
         },
         child: Container(
           height: size.height * .16,

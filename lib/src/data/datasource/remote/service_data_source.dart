@@ -24,20 +24,31 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   Future<bool> createService(
       {required Map<String, dynamic> data, required List<String> file}) async {
     await _reference.doc(data["id"]).set(data);
-    await uploadImage(
-      image: XFile((file[0])),
-      id: data['id'],
-      nameCollectio: _reference,
-      name: "imagesevice",
-      path: "serviceImage${data["id"]}",
-    );
-    await uploadImage(
-      image: XFile((file[1])),
-      id: data['id'],
-      nameCollectio: _reference,
-      name: "imagesevice",
-      path: "serviceImage${data["id"]}",
-    );
+
+    file.forEach((element) async {
+      await uploadImage(
+        image: XFile((element)),
+        id: data['id'],
+        nameCollectio: _reference,
+        name: "imagesevice",
+        path: "serviceImage${data["id"]}",
+      );
+    });
+
+    // await uploadImage(
+    //   image: XFile((file[0])),
+    //   id: data['id'],
+    //   nameCollectio: _reference,
+    //   name: "imagesevice",
+    //   path: "serviceImage${data["id"]}",
+    // );
+    // await uploadImage(
+    //   image: XFile((file[1])),
+    //   id: data['id'],
+    //   nameCollectio: _reference,
+    //   name: "imagesevice",
+    //   path: "serviceImage${data["id"]}",
+    // );
 
     try {
       return true;

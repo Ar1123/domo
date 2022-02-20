@@ -165,43 +165,7 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
       });
     });
 
-    // getToken.fold((l) {
-    //   authUseCaseDomnain.getUserId().then((value) {
-    //     value.fold((l) {}, (r) {
-    //       if (r.isNotEmpty) {
-    //         _ref.doc(r).set({
-    //           "userId": r,
-    //           "token": token,
-    //         }).then((value) {
-    //           sharedPreferences
-    //               .setKeyString(key: "token", value: token!)
-    //               .then((value) {});
-    //         }).catchError((e) {
-    //           log(e, name: "Error");
-    //         });
-    //       }
-    //     });
-    //   });
-    // }, (r) {
-    //   if (r.isEmpty || r != token) {
-    //     authUseCaseDomnain.getUserId().then((value) {
-    //       value.fold((l) {}, (r) {
-    //         _ref.doc(r).set({
-    //           "userId": r,
-    //           "token": token,
-    //         }).then((value) {
-    //           sharedPreferences
-    //               .setKeyString(key: "token", value: token!)
-    //               .then((value) {});
-
-    //           log("aaaa");
-    //         }).catchError((e) {
-    //           log(e, name: "Error");
-    //         });
-    //       });
-    //     });
-    //   } else {}
-    // });
+ 
     log(token!);
     try {
       FirebaseMessaging?.onBackgroundMessage(_background);

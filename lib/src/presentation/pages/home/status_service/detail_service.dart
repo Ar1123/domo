@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 class DetailService extends StatelessWidget {
   DetailService({Key? key}) : super(key: key);
   ServiceEntities? serviceEntities;
+  bool isShared = true;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -20,6 +21,9 @@ class DetailService extends StatelessWidget {
       final decodeData = jsonDecode(encodeData);
       serviceEntities =
           ServiceModel.fromJson(decodeData['service'] as Map<String, dynamic>);
+      if (decodeData['isShared'] != null) {
+        isShared = decodeData['isShared'];
+      }
     }
     return SafeArea(
       child: Scaffold(
@@ -30,6 +34,14 @@ class DetailService extends StatelessWidget {
           action: () {
             Navigator.pop(context);
           },
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: colorText,
+          onPressed: () {},
+          child: Icon(
+            Icons.delete_outline,
+            color: whiteColor,
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -81,11 +93,13 @@ class DetailService extends StatelessWidget {
                   ),
                 ),
               ),
+
+              
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment:(serviceEntities!.imagesevice!.length>1)? MainAxisAlignment.spaceAround:MainAxisAlignment.center,
                 children: [
                   _card(img: serviceEntities!.imagesevice![0], size: size),
-                  _card(img: serviceEntities!.imagesevice![1], size: size),
+                 (serviceEntities!.imagesevice!.length>1)? _card(img: serviceEntities!.imagesevice![1], size: size):SizedBox(),
                 ],
               )
             ],

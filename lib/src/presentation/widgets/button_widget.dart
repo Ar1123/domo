@@ -36,6 +36,7 @@ class ButtonWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: backGroundColor,
             borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: borderColor),
             boxShadow: [
               // BoxShadow(
               //   color:

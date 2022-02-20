@@ -25,6 +25,9 @@ class CreateServicePage extends StatefulWidget {
 
 class _CreateServicePageState extends State<CreateServicePage> {
   final TextEditingController _obsController = TextEditingController();
+  final TextEditingController _dirController = TextEditingController();
+  final TextEditingController _numberController = TextEditingController();
+  final TextEditingController _calleController = TextEditingController();
 
   List<String> _servicios = [
     'Servicio 1',
@@ -56,9 +59,11 @@ class _CreateServicePageState extends State<CreateServicePage> {
           appBar: apbar(
             title: "Crear servicio",
             size: size,
-            action: () {
-              Navigator.pop(context);
-            },
+            action: (loading)
+                ? () {}
+                : () {
+                    Navigator.pop(context);
+                  },
           ),
           body: Container(
             margin: EdgeInsets.symmetric(
@@ -120,6 +125,38 @@ class _CreateServicePageState extends State<CreateServicePage> {
                             ),
                           ),
                         ),
+                      ),
+                      SizedBox(
+                        height: size.height * .02,
+                      ),
+                      InputWidget(
+                        labeltext: "Dirección",
+                        onchanged: (e) {},
+                        textEditingController: _dirController,
+                      ),
+                      SizedBox(
+                        height: size.height * .02,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: size.width * .4,
+                            child: InputWidget(
+                              labeltext: 'Calle',
+                              onchanged: (e) {},
+                              textEditingController: _calleController,
+                            ),
+                          ),
+                          Container(
+                            width: size.width * .4,
+                            child: InputWidget(
+                              labeltext: 'Número',
+                              onchanged: (e) {},
+                              textEditingController: _numberController,
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: size.height * .02,
@@ -294,37 +331,144 @@ class _CreateServicePageState extends State<CreateServicePage> {
                         textColor: whiteColor,
                         text: 'Crear',
                         action: () async {
-                          loading = true;
-                          Future.delayed(Duration(seconds: 4), () {
+                          if (service.isEmpty &&
+                              city.isEmpty &&
+                              date.isEmpty &&
+                              hour.isEmpty &&
+                              _obsController.text.isEmpty &&
+                              _dirController.text.isEmpty &&
+                              _calleController.text.isEmpty &&
+                              _numberController.text.isEmpty) {
                             custonTopSnackbar(
                               context: context,
-                              message: "Aun estamos guardando tus datos",
+                              message: "Upps, aun no llenas todos los campos",
                               type: Types.error,
                             );
-                          });
-                          setState(() {});
-
-                          final result = await serviceBloc.createService(data: {
-                            "category": service,
-                            "city": city,
-                            "dep": dep,
-                            "date": date,
-                            "hour": hour,
-                            "description": _obsController.text.trim(),
-                          }, file: img);
-
-                          if (result) {
-                            Navigator.pop(context);
-                            loading = false;
-                            setState(() {});
                           } else {
-                            loading = false;
                             setState(() {});
-                            custonTopSnackbar(
-                              context: context,
-                              message: "Error al guardar datos",
-                              type: Types.error,
-                            );
+                            custonAlert(
+                                context: context,
+                                body: Material(
+                                  color: whiteColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: size.height * .02,
+                                      ),
+                                      Icon(
+                                        Icons.info_outline,
+                                        color: colorText,
+                                        size: size.height * .06,
+                                      ),
+                                      Container(
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            top: size.height * .0,
+                                            left: size.width * .03,
+                                            right: size.width * .03,
+                                            bottom: size.height * .02,
+                                          ),
+                                          child: Text(
+                                            'Una vez que crees tu servicio, no podra ser editado, ¿deseas continuar?',
+                                            textAlign: TextAlign.center,
+                                            style: textStyle(
+                                              color: colorText,
+                                              size: size.height * .024,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                footer: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Material(
+                                      child: Container(
+                                        width: size.width * .37,
+                                        child: ButtonWidget(
+                                          action: () {
+                                            Navigator.pop(context);
+                                          },
+                                          backGroundColor: whiteColor,
+                                          borderColor: colorText,
+                                          text: 'Cancelar',
+                                          textColor: colorText,
+                                        ),
+                                      ),
+                                    ),
+                                    Material(
+                                      child: Container(
+                                        width: size.width * .37,
+                                        child: ButtonWidget(
+                                          action: () async {
+                                            Navigator.pop(context);
+                                            Future.delayed(
+                                                Duration(seconds: 4), () {});
+                                            if (img.isNotEmpty) {
+                                              loading = true;
+                                              final result = await serviceBloc
+                                                  .createService(
+                                                data: {
+                                                  "category": service,
+                                                  "city": city,
+                                                  "dep": dep,
+                                                  "dir": _dirController.text
+                                                      .trim(),
+                                                  "date": date,
+                                                  "hour": hour,
+                                                  "street": _calleController
+                                                      .text
+                                                      .trim(),
+                                                  "number": _numberController
+                                                      .text
+                                                      .trim(),
+                                                  "description": _obsController
+                                                      .text
+                                                      .trim(),
+                                                },
+                                                file: img,
+                                              );
+
+                                              if (result) {
+                                                Navigator.pop(context);
+                                                loading = false;
+                                                setState(() {});
+                                              } else {
+                                                loading = false;
+                                                setState(() {});
+                                                custonTopSnackbar(
+                                                  context: context,
+                                                  message:
+                                                      "Error al guardar datos",
+                                                  type: Types.error,
+                                                );
+                                              }
+                                            } else {
+                                              loading = false;
+                                              setState(() {});
+                                              custonTopSnackbar(
+                                                context: context,
+                                                message:
+                                                    "Upps, aun no llenas todos los campos",
+                                                type: Types.error,
+                                              );
+                                            }
+                                          },
+                                          backGroundColor: colorText,
+                                          borderColor: colorText,
+                                          text: 'Ok',
+                                          textColor: whiteColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                size: size);
                           }
                         },
                       ),

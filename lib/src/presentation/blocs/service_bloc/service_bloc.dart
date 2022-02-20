@@ -140,6 +140,9 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
       "dep": data['dep'],
       "hour": data['hour'],
       "date": data['date'],
+      "dir": data['dir'],
+      "number": data['number'],
+      "street": data['street'],
       "description": data['description'],
       "status": true,
       "finalizada": false,
@@ -169,7 +172,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
 
     return status;
   }
-
+ 
   Future<List<ServiceEntities>> getServicesByUser() async {
     List<ServiceEntities> list = [];
     final getService =

@@ -50,9 +50,13 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     return list;
   }
 
+  void clear()async{
+    await sharedPrefencesUseCase.clearPreferences("img");
+
+  }
+
   void _onGetImageFromLocal(
       OnEventGetImageFromLocal event, Emitter emitter) async {
-    // await sharedPrefencesUseCase.clearPreferences("img");
     if (event.type == 1) {
       List<String> temp = [];
       final result = await getImageFromLocalUseCase.getimageFromLocal(type: 1);

@@ -6,7 +6,6 @@ import 'dart:convert';
 
 import 'package:domo/src/domain/entities/offer_entities.dart';
 
-
 OfferModel offerModelFromJson(String str) =>
     OfferModel.fromJson(json.decode(str));
 
@@ -22,6 +21,7 @@ class OfferModel extends OfferEntities {
     String? idService,
     String? idOffer,
     bool? status,
+    int? progress,
   }) : super(
           acept: acept,
           client: client,
@@ -31,6 +31,7 @@ class OfferModel extends OfferEntities {
           status: status,
           idService: idService,
           idOffer: idOffer,
+          progress: progress,
         );
 
   factory OfferModel.fromJson(Map<String, dynamic> json) => OfferModel(
@@ -42,6 +43,7 @@ class OfferModel extends OfferEntities {
         price: json["price"],
         client: json["client"],
         status: json["status"],
+        progress: json["progress"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -53,6 +55,7 @@ class OfferModel extends OfferEntities {
         "client": client,
         "status": status,
         "idService": idService,
+        "progress": progress,
       };
 }
 

@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:domo/src/core/utils/future_response/future_response.dart';
 import 'package:domo/src/data/datasource/data_source_data.dart';
 import 'package:domo/src/data/model/user_model.dart';
+import 'package:domo/src/domain/entities/user_entities.dart';
 import 'package:domo/src/domain/repository/repository_domain.dart';
 
 class UserRepositoryImpl implements UserRepositoryDomain {
@@ -36,6 +37,13 @@ class UserRepositoryImpl implements UserRepositoryDomain {
 
     return response(()async{
      return await userRemoteDataSource.getToken(id: id);
+    });
+  }
+
+  @override
+  Future<Either<Failure, UserEntities>> getUserServer({required String id}) {
+  return response(()async{
+     return await userRemoteDataSource.getUserServer(id: id);
     });
   }
 }

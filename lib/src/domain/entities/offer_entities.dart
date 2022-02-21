@@ -10,6 +10,7 @@ class OfferEntities extends Equatable {
     this.status,
     this.idService,
     this.idOffer,
+    this.progress,
   });
 
   final String? owner;
@@ -18,6 +19,8 @@ class OfferEntities extends Equatable {
   final String? price;
   final String? client;
   final String? idService;
+  final int? progress;
+
   final String? idOffer;
   final bool? status;
   @override
@@ -29,9 +32,9 @@ class OfferEntities extends Equatable {
         client,
         status,
         idService,
-        idOffer
+        idOffer,
+        progress,
       ];
-
 }
 
 class ServiceOffer extends Equatable {

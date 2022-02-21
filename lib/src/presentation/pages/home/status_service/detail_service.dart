@@ -6,6 +6,9 @@ import 'package:domo/src/config/style/style.dart';
 import 'package:domo/src/core/constant/asset_images.dart';
 import 'package:domo/src/data/model/service_model.dart';
 import 'package:domo/src/domain/entities/service_entities.dart';
+import 'package:domo/src/domain/entities/user_entities.dart';
+import 'package:domo/src/injector.dart';
+import 'package:domo/src/presentation/blocs/blocs.dart';
 import 'package:domo/src/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +18,9 @@ class DetailService extends StatelessWidget {
   ServiceEntities? serviceEntities;
   bool isShared = true;
   String uidS = "";
+  String price = "";
+  final userBloc = locator<UserBloc>();
+  int progress = 0;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -31,6 +37,10 @@ class DetailService extends StatelessWidget {
         uidS = decodeData['uidS'];
         log(uidS, name: "a2");
       }
+      if (decodeData['price'] != null) {
+        price = decodeData['price'];
+        progress = decodeData['progress'];
+      }
     }
     return SafeArea(
       child: Scaffold(
@@ -43,7 +53,33 @@ class DetailService extends StatelessWidget {
           },
         ),
         floatingActionButton: (!isShared)
-            ? SizedBox()
+            ? (progress==2)?GestureDetector(
+                        onTap: () async {
+                         
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: colorText,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: colorText,
+                                    offset: const Offset(0, 2),
+                                    blurRadius: 2)
+                              ]),
+                          height: size.height * .06,
+                          width: size.width * .3,
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Pagar',
+                            style: textStyle(
+                              color: whiteColor,
+                              size: size.height * .02,
+                            ),
+                          ),
+                        ),
+                      )
+                    :SizedBox()
             : FloatingActionButton(
                 backgroundColor: colorText,
                 onPressed: () {},
@@ -63,20 +99,39 @@ class DetailService extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Column(
                         children: [
+                          FutureBuilder<UserEntities>(
+                              future: userBloc.getUserBydId(id: uidS),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(
+                                    "Servidor: ${snapshot.data!.name}",
+                                    style: textStyle(
+                                      color: colorText,
+                                      size: size.height * .03,
+                                    ),
+                                  );
+                                } else {
+                                  return Text(
+                                    "Servidor: -----------",
+                                    style: textStyle(
+                                      color: colorText,
+                                      size: size.height * .03,
+                                    ),
+                                  );
+                                }
+                              }),
                           Text(
-                            "Servidor: Juanito perez",
+                            "\$$price",
                             style: textStyle(
                               color: colorText,
                               size: size.height * .03,
                             ),
                           ),
-                          Text(
-                            "\$120.000",
-                            style: textStyle(
-                              color: colorText,
-                              size: size.height * .03,
-                            ),
-                          ),
+                          (progress == 0)
+                              ? Text('Aun no se ha iniciado')
+                              : (progress == 1)
+                                  ? Text('En progreso')
+                                  : Text('Finalizada')
                         ],
                       ),
                     )

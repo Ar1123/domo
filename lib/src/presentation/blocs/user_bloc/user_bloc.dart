@@ -27,9 +27,20 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     resultId.fold((l) {}, (r) {
       id = r;
     });
-    log("$id  message");
     final user = await uSerCaseDomain.getUser(id: id);
     user.fold((l) {}, (r) {
+      userEntities = r;
+    });
+
+    return userEntities!;
+  }
+  Future<UserEntities> getUserBydId({required String id}) async {
+    UserEntities? userEntities;
+
+    final user = await uSerCaseDomain.getUserServer(id: id);
+    user.fold((l) {
+      log("$l", name: "Error");
+    }, (r) {
       userEntities = r;
     });
 

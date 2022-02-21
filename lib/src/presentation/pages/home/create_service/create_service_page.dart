@@ -61,7 +61,8 @@ class _CreateServicePageState extends State<CreateServicePage> {
             size: size,
             action: (loading)
                 ? () {}
-                : () {
+                : () async{
+                  serviceBloc.clear();
                     Navigator.pop(context);
                   },
           ),
@@ -407,10 +408,46 @@ class _CreateServicePageState extends State<CreateServicePage> {
                                         child: ButtonWidget(
                                           action: () async {
                                             Navigator.pop(context);
-                                            Future.delayed(
-                                                Duration(seconds: 4), () {});
-                                            if (img.isNotEmpty) {
+                                            Future.delayed(Duration(seconds: 4),
+                                                () {
+                                              if (loading) {
+                                                custonTopSnackbar(
+                                                  context: context,
+                                                  message:
+                                                      "Estamos guardando tus datos",
+                                                  type: Types.info,
+                                                );
+                                                Future.delayed(
+                                                    Duration(seconds: 10), () {
+                                                  if (loading) {
+                                                    custonTopSnackbar(
+                                                      context: context,
+                                                      message:
+                                                          "Faltan tus fotos,  ya casí",
+                                                      type: Types.info,
+                                                    );
+                                                    Future.delayed(
+                                                        Duration(seconds: 19),
+                                                        () {
+                                                      if (loading) {
+                                                        custonTopSnackbar(
+                                                          context: context,
+                                                          message:
+                                                              "Seguimos guardano tus imagenes",
+                                                          type: Types.info,
+                                                        );
+                                                      }
+                                                    });
+                                                  }
+                                                });
+                                              }
+                                            });
+                                            if (img.length == 2) {
                                               loading = true;
+                                              setState(() {
+                                                
+                                              });
+                                              log("${img.length}");
                                               final result = await serviceBloc
                                                   .createService(
                                                 data: {

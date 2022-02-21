@@ -21,4 +21,7 @@ class UserUSerCaseDomain {
       userRepositoryDomain.getUser(id: id);
   Future<Either<Failure, String>> getToken({required String id}) =>
       userRepositoryDomain.getToken(id: id);
+  Future<Either<Failure, UserEntities>>  getUserServer({required String id})=>userRepositoryDomain.getUserServer(id: id);
+
+
 }

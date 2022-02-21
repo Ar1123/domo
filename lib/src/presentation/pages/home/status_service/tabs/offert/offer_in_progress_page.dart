@@ -53,6 +53,8 @@ class OffertInProgressPage extends StatelessWidget {
             arguments: {
               "service": offerEntities.service,
               "isShared": false,
+              "price":offerEntities.price,
+              "progress":offerEntities.progress,
               "uidS":offerEntities.owner
             },
           );
